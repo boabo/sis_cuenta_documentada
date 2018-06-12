@@ -298,9 +298,9 @@ Phx.vista.CuentaDoc = Ext.extend(Phx.gridInterfaz,{
    		    grid: true,
    			form: true
        	},
-		/*{
+		{
 			config: {
-				name: 'tipo_fondo',
+				name: 'id_tipo_cuenta_doc',
 				fieldLabel: 'Tipo Fondo Avance',
 				allowBlank: false,
 				width: 250,
@@ -315,20 +315,20 @@ Phx.vista.CuentaDoc = Ext.extend(Phx.gridInterfaz,{
 				displayField: 'valor',
 				store:new Ext.data.ArrayStore({
 					fields :['variable','valor'],
-					data :  [['1','Comun'],['2','Charter']]})
+					data :  [['1','Solicitud Comun']]})
 			},
 			type: 'ComboBox',
 			id_grupo: 0,
 			filters:{ type: 'list',
-				options: ['comun','charter'],
+				options: ['Solicitud Comun'],
 			},
 			grid: true,
 			form: true
-		},*/
-		{
+		},
+		/*{
 			config:{
 				name:'id_tipo_cuenta_doc',
-				fieldLabel:'Tipo Fondo Avance',
+				fieldLabel:'Tipo Fondo Avance',				
 				allowBlank:false,
 				emptyText:'Tipo...',
 				typeAhead: true,
@@ -375,7 +375,7 @@ Phx.vista.CuentaDoc = Ext.extend(Phx.gridInterfaz,{
 			//filters:{pfiltro:'ren.tipo',type:'string'},
 			grid:false,
 			form:true
-		},
+		},*/
 		{
             config:{
                 name: 'id_moneda',
@@ -1160,6 +1160,7 @@ Phx.vista.CuentaDoc = Ext.extend(Phx.gridInterfaz,{
         Phx.vista.CuentaDoc.superclass.onButtonNew.call(this);
         this.Cmp.fecha.setValue(new Date());
         this.Cmp.fecha.fireEvent('change');
+
     }
 });
 </script>		
