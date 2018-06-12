@@ -754,7 +754,7 @@ class MODCuentaDoc extends MODbase{
 		
 
 
-		$this->captura('id_cuenta_doc','INTEGER');
+		//$this->captura('id_cuenta_doc','INTEGER');
 		$this->captura('fecha','DATE');
 		$this->captura('fecha_entrega','DATE');
 		$this->captura('desc_funcionario1','TEXT');
@@ -767,8 +767,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_depositos','NUMERIC');
 		$this->captura('saldo','NUMERIC');
 		$this->captura('estado','VARCHAR');
-		$this->captura('id_proceso_wf','INTEGER');
-		$this->captura('id_estado_wf','INTEGER');
+		//$this->captura('id_proceso_wf','INTEGER');
+		//$this->captura('id_estado_wf','INTEGER');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

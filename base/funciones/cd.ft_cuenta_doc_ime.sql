@@ -955,7 +955,7 @@ BEGIN
                 FROM cd.tcuenta_doc cd
                 INNER JOIN param.tperiodo per on per.id_periodo=cd.id_periodo
                 WHERE cd.id_cuenta_doc_fk = v_parametros.id_cuenta_doc_fk
-                AND cd.id_periodo=v_parametros.id_periodo;
+                AND cd.id_periodo=v_parametros.id_periodo AND cd.estado_reg!='inactivo';
 
                 IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
                 	raise exception 'Ya se registro una rendicion parcial para el rango de fechas %  %', v_fecha_ini, v_fecha_fin;

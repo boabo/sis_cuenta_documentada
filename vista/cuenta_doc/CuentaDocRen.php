@@ -86,7 +86,7 @@ Phx.vista.CuentaDocRen = {
 					}
 					else{
 						
-						var saldo_final = record.data.importe_solicitado - record.data.importe_total_rendido;
+						var saldo_final = record.data.importe_solicitado - record.data.importe_total_rendido - record.data.importe_retenciones;
 				        saldo_final = me.roundTwo(saldo_final);
 						return String.format("<b><font color = 'red' >Solicitado: {0}</font></b><br>"+
 										 "<b><font color = 'green' >En Documentos: {1}</font></b><br>"+

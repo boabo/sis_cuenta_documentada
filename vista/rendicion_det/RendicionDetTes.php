@@ -67,7 +67,7 @@ Phx.vista.RendicionDetTes = {
 	      }
 	      
 	      this.getBoton('btnShowDoc').enable();
-		if(me.maestro.estado == 'borrador')
+		if(me.maestro.estado == 'borrador' || me.maestro.estado == 'vbrendicion' )
 			this.getBoton('btnCambiarApropiacion').enable();
 		else
 			this.getBoton('btnCambiarApropiacion').disable();
