@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION cd.ft_cuenta_doc_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -587,7 +585,7 @@ BEGIN
 	elseif(p_transaccion='CD_REPCD_SEL')then
     
     
-        v_filtro = ' 0=0 and';
+        v_filtro = 'and 0=0 ';
     
     
         IF v_parametros.codigo_tipo_cuenta_doc = 'todos' THEN
@@ -614,13 +612,13 @@ BEGIN
         
         IF  pxp.f_existe_parametro(p_tabla,'estado')  THEN
              IF v_parametros.estado is not null and v_parametros.estado != '' THEN
-                v_filtro = v_filtro||' estado = ANY( string_to_array('''||v_parametros.estado||''','','')) and ';
+                v_filtro = v_filtro||' and  estado = ANY( string_to_array('''||v_parametros.estado||''','','')) ';
              END IF;
         END IF;
            
          IF  pxp.f_existe_parametro(p_tabla,'fuera_estado')  THEN
              IF v_parametros.fuera_estado is not null and v_parametros.fuera_estado != '' THEN
-                v_filtro = v_filtro||' NOT (estado = ANY (string_to_array('''||v_parametros.fuera_estado||''','',''))) and ';
+                v_filtro = v_filtro||' and  NOT (estado = ANY (string_to_array('''||v_parametros.fuera_estado||''','',''))) ';
              END IF;
         END IF;
         
@@ -628,7 +626,6 @@ BEGIN
     	begin          
     	  --Sentencia de la consulta
 		  v_consulta:='select  
-          					   v.id_cuenta_doc,
                                v.fecha,
                                v.fecha_entrega,
                                v.desc_funcionario1,
@@ -640,15 +637,13 @@ BEGIN
                                v.importe_documentos,
                                v.importe_depositos,
                                v.importe_cheque -(importe_documentos + importe_depositos) as saldo,
-                               v.estado,
-                               v.id_proceso_wf,
-                               v.id_estado_wf
+                               v.estado
                         from cd.vcuenta_doc_revision v
           	            where v.fecha_entrega between '''||v_parametros.fecha_ini::date ||''' and ''' ||v_parametros.fecha_fin::date ||'''
-          	                 and v.id_tipo_cuenta_doc in ('||v_ids||') and '||v_filtro;
+          	                 and v.id_tipo_cuenta_doc in ('||v_ids||') '||v_filtro;
             
             IF v_parametros.id_funcionario != 0 THEN
-            	v_consulta := v_consulta || '  v.id_funcionario = ' || v_parametros.id_funcionario;
+            	v_consulta := v_consulta || ' and v.id_funcionario = ' || v_parametros.id_funcionario;
             END IF;
             
             raise notice  'consulta %', v_consulta;
@@ -856,7 +851,7 @@ BEGIN
                               cdoc.id_depto,
                               cdoc.id_cuenta_doc_fk,
                               cdoc.nro_tramite,
-                              upper(cdoc.motivo)::varchar as motivo,
+                              lower(cdoc.motivo)::varchar as motivo,
                               case when cdoc.id_tipo_cuenta_doc = 1 then lb.fecha else cdoc.fecha end as fecha,
                               cdoc.id_moneda,
                               cdoc.estado,
@@ -870,11 +865,11 @@ BEGIN
                               cdoc.id_usuario_mod,
                               usu1.cuenta as usr_reg,
                               usu2.cuenta as usr_mod,
-                              mon.moneda as desc_moneda,
+                              mon.codigo as desc_moneda,
                               dep.codigo as desc_depto,
                               ew.obs, 
                               fun.desc_funcionario1 as desc_funcionario,
-                              cdoc.importe,
+                              cdoc.importe as importe,
                               fcb.nro_cuenta as desc_funcionario_cuenta_bancaria,
                               cdoc.id_funcionario_cuenta_bancaria,
                               cdoc.id_depto_lb,

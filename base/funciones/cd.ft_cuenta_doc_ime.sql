@@ -86,7 +86,8 @@ DECLARE
     v_fecha_fin						date;
     v_id_periodo					integer;
     v_periodo						integer;
-
+    v_anho							integer;
+	v_fecha_aux						integer;
 BEGIN
 
     v_nombre_funcion = 'cd.ft_cuenta_doc_ime';
@@ -102,7 +103,10 @@ BEGIN
 	if(p_transaccion='CD_CDOC_INS')then
 
         begin
-
+			v_fecha_aux = EXTRACT(YEAR FROM v_parametros.fecha::date);
+            if(v_fecha_aux = 2017)then
+                raise exception 'ESTIMADO USUARIO, NO ES POSIBLE HACER REGISTROS PARA LA GESTION 2017';
+            end if;
              v_codigo_proceso_macro = pxp.f_get_variable_global('cd_codigo_macro_fondo_avance');
 
              --  si el funcionario que solicita es un gerente .... es el mimso encargado de aprobar
@@ -164,7 +168,17 @@ BEGIN
              from param.tperiodo per
              where per.fecha_ini <= v_parametros.fecha and per.fecha_fin >= v_parametros.fecha
              limit 1 offset 0;
-
+             
+             
+             select g.gestion
+             into
+             v_anho
+             from param.tgestion g
+             where g.id_gestion = v_id_gestion;
+             
+             IF v_anho = 2017  then 
+             raise exception 'No puede Registrar Solicitudes de Fondos en Avance nuevas para la gestión 2017';
+			 END IF;	
 
              -- inciar el tramite en el sistema de WF
             SELECT
@@ -431,6 +445,7 @@ BEGIN
 
 			--Sentencia de la modificacion
 			update cd.tcuenta_doc set
+            	id_tipo_cuenta_doc = v_parametros.id_tipo_cuenta_doc,
                 nombre_cheque = v_parametros.nombre_cheque,
                 id_funcionario = v_parametros.id_funcionario,
                 tipo_pago = v_parametros.tipo_pago,
