@@ -2,7 +2,6 @@
 
 /***********************************I-DAT-RAC-CD-0-05/05/2016*****************************************/
 
-
 /* Data for the 'segu.tsubsistema' table  (Records 1 - 1) */
 
 INSERT INTO segu.tsubsistema ("codigo", "nombre", "fecha_reg", "prefijo", "estado_reg", "nombre_carpeta")
@@ -74,10 +73,6 @@ select conta.f_import_tdetalle_plantilla_comprobante ('insert','SOLFONDAV','SOLF
   
 
 
-----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
----------------------------------
-
 select wf.f_import_tproceso_macro ('insert','FA', 'CD', 'Fondo en Avance','si');
 select wf.f_import_tcategoria_documento ('insert','legales', 'Legales');
 select wf.f_import_tcategoria_documento ('insert','proceso', 'Proceso');
@@ -117,85 +112,6 @@ select wf.f_import_testructura_estado ('insert','vbgaf','vbtesoreria','SFA',1,''
 select wf.f_import_testructura_estado ('insert','borrador','vbgaf','SFA',1,'');
 select wf.f_import_testructura_estado ('insert','vbgerencia','vbtesoreria','SFA',1,'');
 select wf.f_import_tfuncionario_tipo_estado ('insert','vbgaf','SFA','3027798',NULL,'');
-----------------------------------
---COPY LINES TO SUBSYSTEM dependencies.sql FILE  
----------------------------------
-
-select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','borrador','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('delete','C31','RFA','borrador','RFA',NULL,NULL,NULL);
-select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','borrador','RFA','insertar','superior','');
- 
-
-
-----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
----------------------------------
-
-select wf.f_import_tproceso_macro ('insert','FA', 'CD', 'Fondo en Avance','si');
-select wf.f_import_tcategoria_documento ('insert','legales', 'Legales');
-select wf.f_import_tcategoria_documento ('insert','proceso', 'Proceso');
-select wf.f_import_ttipo_proceso ('insert','SFA',NULL,NULL,'FA','Solicitud de Fondo en Avance','cd.tcuenta_doc','id_cuenta_doc','si','','','Solicitud de Fondos en Avance','SFA',NULL);
-select wf.f_import_ttipo_proceso ('insert','RFA','contabilizado','SFA','FA','Rendición de Fondo en Avance','cd.tcuenta_doc','id_cuenta_doc','','','opcional','Para el control de estados de la Rendición de fondos en avance','RFA',NULL);
-select wf.f_import_ttipo_estado ('insert','borrador','SFA','Borrador','si','no','no','ninguno','','ninguno','','','no','si',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','cd.f_fun_regreso_cuenta_doc_wf','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','vbgerencia','SFA','VoBo Gerencia','no','no','no','funcion_listado','cd.f_lista_funcionario_gerente_cd_wf_sel','anterior','','','si','si',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','si','cd.f_fun_inicio_cuenta_doc_wf','cd.f_fun_regreso_cuenta_doc_wf','../../../sis_cuenta_documentada/vista/cuenta_doc/CuentaDocVb.php','CuentaDocVb','notificacion','Visto Bueno','cd.id_proceso_wf','borrador');
-select wf.f_import_ttipo_estado ('delete','vbtesoreria','SFA',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
-							NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-select wf.f_import_ttipo_estado ('insert','pendiente','SFA','Pendiente de Contabilización','no','si','no','ninguno','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','contabilizado','SFA','Contabilizado','no','si','no','anterior','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','finalizado','SFA','Finalizado','no','no','no','anterior','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','borrador','RFA','Borrador','si','no','no','ninguno','','ninguno','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','vbrendicion','RFA','VoBo Rendición','no','no','no','ninguno','','depto_func_list','cd.f_lista_depto_conta_wf_sel','','si','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','pendiente','RFA','pendiente','no','si','no','ninguno','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','rendido','RFA','Rendido','no','no','si','anterior','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','anulado','RFA','Anulado','no','no','si','anterior','','anterior','','','no','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
-select wf.f_import_ttipo_estado ('insert','vbtesoreria','SFA','VoBo Tesoreria','no','no','no','ninguno','','anterior','','','si','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','cd.f_fun_inicio_cuenta_doc_wf','','','','','','','borrador');
-select wf.f_import_ttipo_estado ('insert','vbgaf','SFA','VoBo GAF','no','no','no','listado','','anterior','','','si','no',NULL,'<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','si','cd.f_fun_inicio_cuenta_doc_wf','cd.f_fun_regreso_cuenta_doc_wf','','','','','',NULL);
-select wf.f_import_ttipo_documento ('insert','SOLFA','SFA','Solicitud de Fondos','Solicitud de fondos en avance','sis_cuenta_documentada/control/CuentaDoc/reporteSolicitudFondos/','generado',1.00,'{}');
-select wf.f_import_ttipo_documento ('insert','REDFA','RFA','Rendición de Fondos','Rendición de fondos en Avance','sis_cuenta_documentada/control/CuentaDoc/reporteRendicionFondos/','generado',1.00,'{}');
-select wf.f_import_ttipo_documento ('insert','MEMOFA','SFA','Memorándum de Asignación de Fondos','Memorándum de Asignación de Fondos','sis_cuenta_documentada/control/CuentaDoc/reporteMemoDesignacion/','generado',1.00,'{}');
-select wf.f_import_ttipo_documento ('insert','C31','RFA','Comprobante SIGEP','Comprobante SIGEP','','escaneado',1.00,'{}');
-select wf.f_import_ttipo_documento ('insert','OTR','RFA','Otros Documentos','Otros Documentos','','escaneado',1.00,'{}');
-select wf.f_import_testructura_estado ('insert','borrador','vbgerencia','SFA',1,'');
-select wf.f_import_testructura_estado ('delete','vbgerencia','vbtesoreria','SFA',NULL,NULL);
-select wf.f_import_testructura_estado ('delete','vbtesoreria','pendiente','SFA',NULL,NULL);
-select wf.f_import_testructura_estado ('insert','pendiente','contabilizado','SFA',1,'');
-select wf.f_import_testructura_estado ('insert','contabilizado','finalizado','SFA',1,'');
-select wf.f_import_testructura_estado ('insert','borrador','vbrendicion','RFA',1,'');
-select wf.f_import_testructura_estado ('insert','vbrendicion','pendiente','RFA',1,'');
-select wf.f_import_testructura_estado ('insert','pendiente','rendido','RFA',1,'');
-select wf.f_import_testructura_estado ('delete','vbgerencia','vbtesoreria','SFA',NULL,NULL);
-select wf.f_import_testructura_estado ('insert','vbtesoreria','pendiente','SFA',1,'');
-select wf.f_import_testructura_estado ('delete','vbgerencia','vbgaf','SFA',NULL,NULL);
-select wf.f_import_testructura_estado ('insert','vbgaf','vbtesoreria','SFA',1,'');
-select wf.f_import_testructura_estado ('insert','borrador','vbgaf','SFA',1,'');
-select wf.f_import_testructura_estado ('insert','vbgerencia','vbtesoreria','SFA',1,'');
-select wf.f_import_tfuncionario_tipo_estado ('insert','vbgaf','SFA','3027798',NULL,'');
---------------------------------------
---COPY LINES TO SUBSYSTEM dependencies.sql FILE  
-------------------------------------
-
-select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','borrador','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('delete','C31','RFA','borrador','RFA',NULL,NULL,NULL);
-select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','borrador','RFA','insertar','superior','');
-
 
 
 /* Data for the 'cd.ttipo_cuenta_doc' table  (Records 1 - 2) */
@@ -394,120 +310,6 @@ select pxp.f_insert_trol ('CD - VoBo Tesoreria', 'CD - VoBo Tesoreria', 'CD');
 select pxp.f_insert_trol ('CD - VoBo Cuenta Documentada', 'CD - VoBo Cuenta Documentada', 'CD');
 select pxp.f_insert_trol ('CD - Consulta Fondos en Avance', 'CD - Consulta Fondos en Avance', 'CD');
 select pxp.f_insert_trol ('CD - VoBo Cuenta Documentada Central', 'CD - VoBo Cuenta Documentada Central', 'CD');
-----------------------------------
---COPY LINES TO dependencies.sql FILE  
----------------------------------
-
-select pxp.f_insert_testructura_gui ('CD', 'SISTEMA');
-select pxp.f_insert_testructura_gui ('CBCONF', 'CD');
-select pxp.f_insert_testructura_gui ('TCUD', 'CBCONF');
-select pxp.f_insert_testructura_gui ('TIPCAT', 'CBCONF');
-select pxp.f_insert_testructura_gui ('LISBLO', 'CBCONF');
-select pxp.f_insert_testructura_gui ('TIPCAT.1', 'TIPCAT');
-select pxp.f_insert_testructura_gui ('SOLFND.1', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.2', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.3', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.4', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.5', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.1.1', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.2', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.3', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.5', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.1.1', 'SOLFND.1.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1', 'SOLFND.1.4');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.1', 'SOLFND.1.4.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.2', 'SOLFND.1.4.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.3', 'SOLFND.1.4.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.4', 'SOLFND.1.4.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5', 'SOLFND.1.4.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5.1', 'SOLFND.1.4.1.5');
-select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5.1.1', 'SOLFND.1.4.1.5.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1', 'SOLFND.1.6');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1', 'SOLFND.1.6.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.2', 'SOLFND.1.6.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.3', 'SOLFND.1.6.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1', 'SOLFND.1.6.1.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1.1', 'SOLFND.1.6.1.1.1');
-select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1.1.1', 'SOLFND.1.6.1.1.1.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.1', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.2', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.3', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.5', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('VBCUDOC.1.1', 'VBCUDOC.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1', 'VBCUDOC.4');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.1', 'VBCUDOC.4.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.2', 'VBCUDOC.4.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.3', 'VBCUDOC.4.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.4', 'VBCUDOC.4.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5', 'VBCUDOC.4.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5.1', 'VBCUDOC.4.1.5');
-select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5.1.1', 'VBCUDOC.4.1.5.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1', 'VBCUDOC.6');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1', 'VBCUDOC.6.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.2', 'VBCUDOC.6.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.3', 'VBCUDOC.6.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1', 'VBCUDOC.6.1.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1.1', 'VBCUDOC.6.1.1.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1.1.1', 'VBCUDOC.6.1.1.1.1');
-select pxp.f_insert_testructura_gui ('SOLFND.6', 'SOLFND');
-select pxp.f_insert_testructura_gui ('SOLFND.1.7', 'SOLFND.1');
-select pxp.f_insert_testructura_gui ('VBCUDOC.7', 'VBCUDOC');
-select pxp.f_insert_testructura_gui ('CONFA.1', 'CONFA');
-select pxp.f_insert_testructura_gui ('CONFA.2', 'CONFA');
-select pxp.f_insert_testructura_gui ('CONFA.3', 'CONFA');
-select pxp.f_insert_testructura_gui ('CONFA.4', 'CONFA');
-select pxp.f_insert_testructura_gui ('CONFA.5', 'CONFA');
-select pxp.f_insert_testructura_gui ('CONFA.2.1', 'CONFA.2');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.1', 'CONFA.2.1');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.2', 'CONFA.2.1');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.3', 'CONFA.2.1');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.4', 'CONFA.2.1');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.5', 'CONFA.2.1');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.5.1', 'CONFA.2.1.5');
-select pxp.f_insert_testructura_gui ('CONFA.2.1.5.1.1', 'CONFA.2.1.5.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1', 'CONFA.4');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.1', 'CONFA.4.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.2', 'CONFA.4.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.3', 'CONFA.4.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1', 'CONFA.4.1.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1.1', 'CONFA.4.1.1.1');
-select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1.1.1', 'CONFA.4.1.1.1.1');
-select pxp.f_insert_testructura_gui ('SOLFND', 'CD');
-select pxp.f_insert_testructura_gui ('VBCUDOC', 'CD');
-select pxp.f_insert_testructura_gui ('CONFA', 'CD');
-select pxp.f_insert_testructura_gui ('CONFA.6', 'CONFA');
-select pxp.f_insert_testructura_gui ('SOLFND.1.2.1', 'SOLFND.1.2');
-select pxp.f_insert_testructura_gui ('VBCUDOC.2.1', 'VBCUDOC.2');
-select pxp.f_insert_testructura_gui ('VBFACC', 'CD');
-select pxp.f_insert_testructura_gui ('VBFACC.1', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.2', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.3', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.4', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.5', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.6', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.7', 'VBFACC');
-select pxp.f_insert_testructura_gui ('VBFACC.1.1', 'VBFACC.1');
-select pxp.f_insert_testructura_gui ('VBFACC.2.1', 'VBFACC.2');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1', 'VBFACC.4');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.1', 'VBFACC.4.1');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.2', 'VBFACC.4.1');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.3', 'VBFACC.4.1');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.4', 'VBFACC.4.1');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.5', 'VBFACC.4.1');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.5.1', 'VBFACC.4.1.5');
-select pxp.f_insert_testructura_gui ('VBFACC.4.1.5.1.1', 'VBFACC.4.1.5.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1', 'VBFACC.6');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.1', 'VBFACC.6.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.2', 'VBFACC.6.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.3', 'VBFACC.6.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1', 'VBFACC.6.1.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1.1', 'VBFACC.6.1.1.1');
-select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1.1.1', 'VBFACC.6.1.1.1.1');
-
 
 /***********************************F-DAT-RAC-CD-0-05/05/2016*****************************************/
 
@@ -516,10 +318,6 @@ select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1.1.1', 'VBFACC.6.1.1.1.1');
 
 /***********************************I-DAT-RAC-CD-0-25/08/2017*****************************************/
 
-
-----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
----------------------------------
 
 select param.f_import_tcatalogo_tipo ('insert','tcuenta_doc','CD','tcuenta_doc');
 select param.f_import_tcatalogo ('insert','CD','Contabilizado','contabilizado','tcuenta_doc');

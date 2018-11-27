@@ -1,3 +1,118 @@
+
+/***********************************I-DEP-RAC-CD-0-05/05/2016*****************************************/
+select pxp.f_insert_testructura_gui ('CD', 'SISTEMA');
+select pxp.f_insert_testructura_gui ('CBCONF', 'CD');
+select pxp.f_insert_testructura_gui ('TCUD', 'CBCONF');
+select pxp.f_insert_testructura_gui ('TIPCAT', 'CBCONF');
+select pxp.f_insert_testructura_gui ('LISBLO', 'CBCONF');
+select pxp.f_insert_testructura_gui ('TIPCAT.1', 'TIPCAT');
+select pxp.f_insert_testructura_gui ('SOLFND.1', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.2', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.3', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.4', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.5', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.1.1', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.2', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.3', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.5', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.1.1', 'SOLFND.1.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1', 'SOLFND.1.4');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.1', 'SOLFND.1.4.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.2', 'SOLFND.1.4.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.3', 'SOLFND.1.4.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.4', 'SOLFND.1.4.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5', 'SOLFND.1.4.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5.1', 'SOLFND.1.4.1.5');
+select pxp.f_insert_testructura_gui ('SOLFND.1.4.1.5.1.1', 'SOLFND.1.4.1.5.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1', 'SOLFND.1.6');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1', 'SOLFND.1.6.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.2', 'SOLFND.1.6.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.3', 'SOLFND.1.6.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1', 'SOLFND.1.6.1.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1.1', 'SOLFND.1.6.1.1.1');
+select pxp.f_insert_testructura_gui ('SOLFND.1.6.1.1.1.1.1', 'SOLFND.1.6.1.1.1.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.1', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.2', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.3', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.5', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('VBCUDOC.1.1', 'VBCUDOC.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1', 'VBCUDOC.4');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.1', 'VBCUDOC.4.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.2', 'VBCUDOC.4.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.3', 'VBCUDOC.4.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.4', 'VBCUDOC.4.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5', 'VBCUDOC.4.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5.1', 'VBCUDOC.4.1.5');
+select pxp.f_insert_testructura_gui ('VBCUDOC.4.1.5.1.1', 'VBCUDOC.4.1.5.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1', 'VBCUDOC.6');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1', 'VBCUDOC.6.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.2', 'VBCUDOC.6.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.3', 'VBCUDOC.6.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1', 'VBCUDOC.6.1.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1.1', 'VBCUDOC.6.1.1.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.6.1.1.1.1.1', 'VBCUDOC.6.1.1.1.1');
+select pxp.f_insert_testructura_gui ('SOLFND.6', 'SOLFND');
+select pxp.f_insert_testructura_gui ('SOLFND.1.7', 'SOLFND.1');
+select pxp.f_insert_testructura_gui ('VBCUDOC.7', 'VBCUDOC');
+select pxp.f_insert_testructura_gui ('CONFA.1', 'CONFA');
+select pxp.f_insert_testructura_gui ('CONFA.2', 'CONFA');
+select pxp.f_insert_testructura_gui ('CONFA.3', 'CONFA');
+select pxp.f_insert_testructura_gui ('CONFA.4', 'CONFA');
+select pxp.f_insert_testructura_gui ('CONFA.5', 'CONFA');
+select pxp.f_insert_testructura_gui ('CONFA.2.1', 'CONFA.2');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.1', 'CONFA.2.1');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.2', 'CONFA.2.1');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.3', 'CONFA.2.1');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.4', 'CONFA.2.1');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.5', 'CONFA.2.1');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.5.1', 'CONFA.2.1.5');
+select pxp.f_insert_testructura_gui ('CONFA.2.1.5.1.1', 'CONFA.2.1.5.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1', 'CONFA.4');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.1', 'CONFA.4.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.2', 'CONFA.4.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.3', 'CONFA.4.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1', 'CONFA.4.1.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1.1', 'CONFA.4.1.1.1');
+select pxp.f_insert_testructura_gui ('CONFA.4.1.1.1.1.1', 'CONFA.4.1.1.1.1');
+select pxp.f_insert_testructura_gui ('SOLFND', 'CD');
+select pxp.f_insert_testructura_gui ('VBCUDOC', 'CD');
+select pxp.f_insert_testructura_gui ('CONFA', 'CD');
+select pxp.f_insert_testructura_gui ('CONFA.6', 'CONFA');
+select pxp.f_insert_testructura_gui ('SOLFND.1.2.1', 'SOLFND.1.2');
+select pxp.f_insert_testructura_gui ('VBCUDOC.2.1', 'VBCUDOC.2');
+select pxp.f_insert_testructura_gui ('VBFACC', 'CD');
+select pxp.f_insert_testructura_gui ('VBFACC.1', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.2', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.3', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.4', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.5', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.6', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.7', 'VBFACC');
+select pxp.f_insert_testructura_gui ('VBFACC.1.1', 'VBFACC.1');
+select pxp.f_insert_testructura_gui ('VBFACC.2.1', 'VBFACC.2');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1', 'VBFACC.4');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.1', 'VBFACC.4.1');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.2', 'VBFACC.4.1');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.3', 'VBFACC.4.1');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.4', 'VBFACC.4.1');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.5', 'VBFACC.4.1');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.5.1', 'VBFACC.4.1.5');
+select pxp.f_insert_testructura_gui ('VBFACC.4.1.5.1.1', 'VBFACC.4.1.5.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1', 'VBFACC.6');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.1', 'VBFACC.6.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.2', 'VBFACC.6.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.3', 'VBFACC.6.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1', 'VBFACC.6.1.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1.1', 'VBFACC.6.1.1.1');
+select pxp.f_insert_testructura_gui ('VBFACC.6.1.1.1.1.1', 'VBFACC.6.1.1.1.1');
+
+/***********************************F-DEP-RAC-CD-0-05/05/2016*****************************************/
+
+
 /***********************************I-DEP-RAC-CD-0-17/05/2016*****************************************/
 CREATE OR REPLACE VIEW cd.vcuenta_doc(
     id_cuenta_doc,
@@ -243,14 +358,25 @@ CREATE TRIGGER trig_tcuenta_doc
   EXECUTE PROCEDURE cd.trig_tcuenta_doc();   
   
 
-  
 select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','borrador','SFA','insertar','superior','');
 select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','borrador','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','REDFA','RFA','rendido','RFA','insertar','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','crear','superior','');
-select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','contabilizado','SFA','insertar','superior','');      
+select wf.f_import_ttipo_documento_estado ('delete','REDFA','RFA','rendido','RFA',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('delete','MEMOFA','SFA','contabilizado','SFA',NULL,NULL,NULL);
+select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','borrador','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','rendido','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','rendido','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','borrador','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','MEMOFA','SFA','borrador','SFA','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','FAC','RFA','borrador','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','DEP','RFA','borrador','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','RESSOL','SFA','borrador','SFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','DEP','RFA','vbrendicion','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','FAC','RFA','vbrendicion','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','RESREN','RFA','borrador','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','RESREN','RFA','vbrendicion','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','SOLFA','SFA','contabilizado','SFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','OTR','RFA','vbrendicion','RFA','insertar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','C31','RFA','vbrendicion','RFA','insertar','superior','');
          
 /***********************************F-DEP-RAC-CD-0-17/05/2016*****************************************/
 
