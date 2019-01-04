@@ -173,13 +173,15 @@ Phx.vista.CuentaDocRen = {
    },
 
 	iniciarEventos:function(){
-		this.Cmp.fecha.on('change', function (calendar, newValue, oldValue) {
-			//this.Cmp.id_periodo.reset();
-			this.Cmp.id_periodo.setDisabled(false);
-			this.Cmp.id_periodo.store.baseParams.id_gestion = this.getGestion(new Date());
-			this.Cmp.id_periodo.modificado = true;
 
-		}, this);
+        this.Cmp.fecha.on('change', function (calendar, newValue, oldValue) {
+            this.Cmp.id_periodo.reset();
+            this.Cmp.id_periodo.setDisabled(false);
+            this.Cmp.id_periodo.store.baseParams.id_gestion = this.getGestion(this.fecha);
+            this.Cmp.id_periodo.modificado = true;
+        }, this);
+
+
 	},
 
 	onButtonEdit:function(){
