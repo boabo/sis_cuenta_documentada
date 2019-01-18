@@ -122,11 +122,13 @@ Phx.vista.CuentaDocVb = {
          if(data.estado == 'anulado' || data.estado == 'finalizado' || data.estado == 'pendiente'|| data.estado == 'contabilizado'|| data.estado == 'rendido'){
                 this.getBoton('ant_estado').disable();
                 this.getBoton('sig_estado').disable();
+                this.getBoton('ini_estado').disable();
          }
             
          if(data.estado != 'borrador' && data.estado !='anulado' && data.estado !='finalizado'&& data.estado !='pendiente' && data.estado !='contabilizado'&&data.estado != 'rendido'){
                 this.getBoton('ant_estado').enable();
                 this.getBoton('sig_estado').enable();
+                this.getBoton('ini_estado').enable();
          }
       }     
       else{
@@ -140,6 +142,7 @@ Phx.vista.CuentaDocVb = {
         if(tb){
             this.getBoton('sig_estado').disable();
             this.getBoton('ant_estado').disable();
+            this.getBoton('ini_estado').disable();
             this.getBoton('btnChequeoDocumentosWf').disable();
             this.getBoton('diagrama_gantt').disable();
             this.getBoton('btnObs').disable();
