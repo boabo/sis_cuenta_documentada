@@ -36,7 +36,23 @@ header("content-type: text/javascript; charset=UTF-8");
             this.tbarItems = ['-',
                 {xtype: 'label',text: 'Gestión:'},
                 this.cmbGestion,'-'];
-
+            //Filtro por gestion
+            if(this.nombreVista != 'solicitudApro'){
+                Ext.Ajax.request({
+                    url:'../../sis_parametros/control/Gestion/obtenerGestionByFecha',
+                    params:{fecha:new Date()},
+                    success:function(resp){
+                        var reg =  Ext.decode(Ext.util.Format.trim(resp.responseText));
+                        this.cmbGestion.setValue(reg.ROOT.datos.id_gestion);
+                        this.cmbGestion.setRawValue(reg.ROOT.datos.anho);
+                        this.store.baseParams.id_gestion=reg.ROOT.datos.id_gestion;
+                        this.load({params:{start:0, limit:this.tam_pag}});
+                    },
+                    failure: this.conexionFailure,
+                    timeout:this.timeout,
+                    scope:this
+                });
+            }
 
             this.Atributos[this.getIndAtributo('importe')].config.renderer = function(value, p, record) {
                 if (record.data.estado == 'contabilizado') {

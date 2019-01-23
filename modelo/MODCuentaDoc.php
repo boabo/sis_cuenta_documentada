@@ -69,7 +69,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('sw_max_doc_rend','VARCHAR');
 		$this->captura('num_rendicion','VARCHAR');
 		$this->captura('importe_total_rendido','numeric');	
-		
+		$this->captura('id_gestion','INTEGER');
+
 		
 		
 		

@@ -31,7 +31,10 @@ class ACTCuentaDoc extends ACTbase{
 		if(strtolower($this->objParam->getParametro('estado'))=='finalizados'){
              $this->objParam->addFiltro("(cdoc.estado in (''finalizado'',''anulado''))");
         }
-		
+
+        if($this->objParam->getParametro('id_gestion')!=''){
+            $this->objParam->addFiltro("cdoc.id_gestion = ".$this->objParam->getParametro('id_gestion'));
+        }
 		
 		$this->objParam->addParametro('id_funcionario_usu',$_SESSION["ss_id_funcionario"]); 
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){

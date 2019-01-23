@@ -26,7 +26,7 @@ Phx.vista.CuentaDocVbContaCentral = {
 	    //funcionalidad para listado de historicos
         this.historico = 'no';
         this.tbarItems = ['-',{
-            text: 'Histórico',
+            text: 'HistÃ³rico',
             enableToggle: true,
             pressed: false,
             toggleHandler: function(btn, pressed) {
@@ -43,7 +43,25 @@ Phx.vista.CuentaDocVbContaCentral = {
                 this.reload();
              },
             scope: this
-           }];
+           }, '-',this.cmbGestion,'-'];
+
+        //Filtro por gestion
+        if(this.nombreVista != 'solicitudApro'){
+            Ext.Ajax.request({
+                url:'../../sis_parametros/control/Gestion/obtenerGestionByFecha',
+                params:{fecha:new Date()},
+                success:function(resp){
+                    var reg =  Ext.decode(Ext.util.Format.trim(resp.responseText));
+                    this.cmbGestion.setValue(reg.ROOT.datos.id_gestion);
+                    this.cmbGestion.setRawValue(reg.ROOT.datos.anho);
+                    this.store.baseParams.id_gestion=reg.ROOT.datos.id_gestion;
+                    this.load({params:{start:0, limit:this.tam_pag}});
+                },
+                failure: this.conexionFailure,
+                timeout:this.timeout,
+                scope:this
+            });
+        }
            
         var me = this;
 		this.Atributos[this.getIndAtributo('importe')].config.renderer = function(value, p, record) {  
@@ -82,7 +100,7 @@ Phx.vista.CuentaDocVbContaCentral = {
 				iconCls : 'bprint',
 				disabled : false,
 				handler : this.onButtonMemoDesignacion,
-				tooltip : '<b>Reporte de designación</b>'
+				tooltip : '<b>Reporte de designaciï¿½n</b>'
 		});
 		
 		
@@ -96,11 +114,47 @@ Phx.vista.CuentaDocVbContaCentral = {
 		//primera carga
 		this.store.baseParams.pes_estado = 'borrador';
     	this.load({params:{start:0, limit:this.tam_pag}});
-    	
-    	
+
+        this.cmbGestion.on('select',function(){
+
+            this.store.baseParams.id_gestion = this.cmbGestion.getValue();
+            if(!this.store.baseParams.id_gestion){
+                delete this.store.baseParams.id_gestion;
+            }
+            this.reload();
+        }, this);
 		
 		this.finCons = true;
    },
+    cmbGestion: new Ext.form.ComboBox({
+        fieldLabel: 'Gestion',
+        allowBlank: true,
+        emptyText:'Gestion...',
+        store:new Ext.data.JsonStore(
+            {
+                url: '../../sis_parametros/control/Gestion/listarGestion',
+                id: 'id_gestion',
+                root: 'datos',
+                sortInfo:{
+                    field: 'gestion',
+                    direction: 'ASC'
+                },
+                totalProperty: 'total',
+                fields: ['id_gestion','gestion'],
+                // turn on remote sorting
+                remoteSort: true,
+                baseParams:{par_filtro:'gestion'}
+            }),
+        valueField: 'id_gestion',
+        triggerAction: 'all',
+        displayField: 'gestion',
+        hiddenName: 'id_gestion',
+        mode: 'remote',
+        pageSize: 50,
+        queryDelay: 500,
+        listWidth: '280',
+        width: 80
+    }),
    
     preparaMenu:function(n){
       var data = this.getSelectedData();
