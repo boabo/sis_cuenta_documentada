@@ -613,13 +613,13 @@ BEGIN
 
         IF  pxp.f_existe_parametro(p_tabla,'estado')  THEN
              IF v_parametros.estado is not null and v_parametros.estado != '' THEN
-                v_filtro = v_filtro||' and  estado = ANY( string_to_array('''||v_parametros.estado||''','','')) ';
+                v_filtro = v_filtro||' and  v.estado = ANY( string_to_array('''||v_parametros.estado||''','','')) ';
              END IF;
         END IF;
 
          IF  pxp.f_existe_parametro(p_tabla,'fuera_estado')  THEN
              IF v_parametros.fuera_estado is not null and v_parametros.fuera_estado != '' THEN
-                v_filtro = v_filtro||' and  NOT (estado = ANY (string_to_array('''||v_parametros.fuera_estado||''','',''))) ';
+                v_filtro = v_filtro||' and  NOT (v.estado = ANY (string_to_array('''||v_parametros.fuera_estado||''','',''))) ';
              END IF;
         END IF;
 
@@ -638,8 +638,11 @@ BEGIN
                                v.importe_documentos,
                                v.importe_depositos,
                                v.importe_cheque -(importe_documentos + importe_depositos) as saldo,
-                               v.estado
+                               v.estado,
+                               intco.c31
                         from cd.vcuenta_doc_revision v
+                        left join cd.tcuenta_doc cuen on cuen.id_cuenta_doc_fk = v.id_cuenta_doc
+                        left join conta.tint_comprobante intco on intco.id_int_comprobante = cuen.id_int_comprobante                                                
           	            where v.fecha_entrega between '''||v_parametros.fecha_ini::date ||''' and ''' ||v_parametros.fecha_fin::date ||'''
           	                 and v.id_tipo_cuenta_doc in ('||v_ids||') '||v_filtro;
 

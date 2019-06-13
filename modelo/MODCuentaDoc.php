@@ -767,7 +767,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_documentos','NUMERIC');
 		$this->captura('importe_depositos','NUMERIC');
 		$this->captura('saldo','NUMERIC');
-		$this->captura('estado','VARCHAR');
+        $this->captura('estado','VARCHAR');
+        $this->captura('c31','varchar');
 		//$this->captura('id_proceso_wf','INTEGER');
 		//$this->captura('id_estado_wf','INTEGER');
 		//Ejecuta la instruccion

@@ -62,7 +62,7 @@ class RCuentaDoc
 
     function imprimeDetalle(){
         $this->docexcel->getActiveSheet()->setTitle('Detalle');
-        $datos = $this->objParam->getParametro('datos');
+        $datos = $this->objParam->getParametro('datos');        
         $columnas = 0;
         $this->docexcel->setActiveSheetIndex(0);
 
@@ -78,6 +78,7 @@ class RCuentaDoc
         $this->docexcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
         $this->docexcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
         $this->docexcel->getActiveSheet()->getColumnDimension('L')->setWidth(20);
+        $this->docexcel->getActiveSheet()->getColumnDimension('M')->setWidth(20);
 
 
         $styleTitulos = array(
@@ -101,9 +102,9 @@ class RCuentaDoc
                     'style' => PHPExcel_Style_Border::BORDER_THIN
                 )
             ));
-        $this->docexcel->getActiveSheet()->getStyle('A1:L1')->getAlignment()->setWrapText(true);
+        $this->docexcel->getActiveSheet()->getStyle('A1:M1')->getAlignment()->setWrapText(true);
 
-        $this->docexcel->getActiveSheet()->getStyle('A1:L1')->applyFromArray($styleTitulos);
+        $this->docexcel->getActiveSheet()->getStyle('A1:M1')->applyFromArray($styleTitulos);
 
         //*************************************Cabecera*****************************************
         $this->docexcel->getActiveSheet()->setCellValue('A1','Fecha Solicitud');
@@ -118,6 +119,7 @@ class RCuentaDoc
         $this->docexcel->getActiveSheet()->setCellValue('J1','Importe Depositos Bs');
         $this->docexcel->getActiveSheet()->setCellValue('K1','Saldo por Rendir Bs');
         $this->docexcel->getActiveSheet()->setCellValue('L1','Estado');
+        $this->docexcel->getActiveSheet()->setCellValue('M1','C31');
 
 
         //*************************************Detalle*****************************************
