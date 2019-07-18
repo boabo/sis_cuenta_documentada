@@ -312,14 +312,14 @@ header("content-type: text/javascript; charset=UTF-8");
                 config: {
                     name: 'id_depto',
                     hiddenName: 'Depto',
-                    url: '../../sis_parametros/control/Depto/listarDeptoFiltradoXUsuario',
+                    url: '../../sis_parametros/control/Depto/listarDeptoFiltradoXUsuarioFA',
                     origen: 'DEPTO',
                     allowBlank: false,
                     fieldLabel: 'Depto',
                     gdisplayField: 'desc_depto',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
                     width: 250,
                     gwidth: 180,
-                    baseParams: {estado: 'activo', codigo_subsistema: 'TES', modulo: 'OP'},//parametros adicionales que se le pasan al store
+                    baseParams: {estado: 'activo', codigo_subsistema: 'TES', modulo: 'OP', prioridad: 1},//parametros adicionales que se le pasan al store
                     renderer: function (value, p, record) {
                         return String.format('{0}', record.data['desc_depto']);
                     }
