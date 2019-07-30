@@ -819,7 +819,7 @@ header("content-type: text/javascript; charset=UTF-8");
 	 abrirFormulario : function(tipo, record, readOnly) {
 			//abrir formulario de solicitud
 			var me = this;
-			me.objSolForm = Phx.CP.loadWindows('../../../sis_cuenta_documentada/vista/rendicion_det/FormRendicionCD.php', 'Formulario de rendicion', {
+			me.objSolForm = Phx.CP.loadWindows('../../../sis_cuenta_documentada/vista/rendicion_det/FormRendicionCD.php', 'Formulario de Rendición', {
 				modal : true,
 				width : '95%',
 				height : '95%'
