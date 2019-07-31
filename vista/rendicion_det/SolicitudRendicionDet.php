@@ -494,7 +494,7 @@ Phx.vista.SolicitudRendicionDet=Ext.extend(Phx.gridInterfaz,{
 	   var me = this;
 	   
 	   me.objSolForm = Phx.CP.loadWindows('../../../sis_tesoreria/vista/solicitud_rendicion_det/FormRendicion.php',
-								'Formulario de rendicion',
+								'Formulario de Rendición',
 								{
 									modal:true,
 									width:'90%',

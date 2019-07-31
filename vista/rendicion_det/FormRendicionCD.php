@@ -56,6 +56,8 @@ Phx.vista.FormRendicionCD = {
 		this.Cmp.dia.hide();
 		this.Cmp.fecha.setReadOnly(false);
 		this.Cmp.fecha.on('change', this.cargarPeriodo, this);
+
+        this.Cmp.fecha_vencimiento.setReadOnly(false);
 		
 		       
 	},	
