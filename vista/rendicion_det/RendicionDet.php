@@ -157,7 +157,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				anchor : '80%',
 				gwidth : 100,
 				format : 'd/m/Y',
-				readOnly : true,
+				readOnly : false,
 				renderer : function(value, p, record) {
 					return value ? value.dateFormat('d/m/Y') : ''
 				}
