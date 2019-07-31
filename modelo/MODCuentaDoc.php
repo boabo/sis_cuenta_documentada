@@ -453,7 +453,7 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('nro_cbte','VARCHAR');
 		$this->captura('num_memo','VARCHAR');
 		$this->captura('num_rendicion','VARCHAR');
-		$this->captura('nro_cheque','integer');		
+		$this->captura('nro_cheque','varchar');		
 		$this->captura('importe_solicitado','numeric');		
 		
 		
@@ -761,7 +761,7 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('desc_funcionario1','TEXT');
 		$this->captura('nro_tramite','VARCHAR');
 		$this->captura('motivo','VARCHAR');
-		$this->captura('nro_cheque','INTEGER');
+		$this->captura('nro_cheque','varchar');
 		$this->captura('importe_solicitado','NUMERIC');
 		$this->captura('importe_cheque','NUMERIC');
 		$this->captura('importe_documentos','NUMERIC');
@@ -807,7 +807,7 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('desc_funcionario1','TEXT');
 		$this->captura('nro_tramite','VARCHAR');
 		$this->captura('motivo','VARCHAR');
-		$this->captura('nro_cheque','INTEGER');
+		$this->captura('nro_cheque','varchar');
 		$this->captura('importe_solicitado','NUMERIC');
 		$this->captura('importe_cheque','NUMERIC');
 		$this->captura('importe_documentos','NUMERIC');
