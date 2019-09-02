@@ -220,6 +220,7 @@ class MODRendicionDet extends MODbase{
 			$this->setParametro('id_auxiliar','id_auxiliar','integer');
 
 			$this->setParametro('fecha_vencimiento','fecha_vencimiento','date');
+            $this->setParametro('tipo_cambio', 'tipo_cambio', 'numeric');
 
 			//Ejecuta la instruccion
             $this->armarConsulta();
@@ -440,7 +441,8 @@ class MODRendicionDet extends MODbase{
 			$this->setParametro('id_auxiliar','id_auxiliar','integer');
 
             $this->setParametro('fecha_vencimiento','fecha_vencimiento','date');
-			
+            $this->setParametro('tipo_cambio','tipo_cambio','numeric');
+
 			//Ejecuta la instruccion
             $this->armarConsulta();
 			$stmt = $link->prepare($this->consulta);		  
