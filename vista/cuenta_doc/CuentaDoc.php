@@ -256,7 +256,8 @@ header("content-type: text/javascript; charset=UTF-8");
                     fieldLabel: 'Periodo/Mes',
                     allowBlank: false,
                     pageSize: 12,
-                    width: 230,
+                    anchor: '80%',
+                    width: 120,
                     listWidth: '230',
                     renderer: function (value, p, record) {
                         return String.format('{0}', record.data['periodo']);
@@ -319,7 +320,8 @@ header("content-type: text/javascript; charset=UTF-8");
                     gdisplayField: 'desc_depto',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
                     width: 250,
                     gwidth: 180,
-                    baseParams: {estado: 'activo', codigo_subsistema: 'TES', modulo: 'OP', prioridad: 1},//parametros adicionales que se le pasan al store
+                    //baseParams: {estado: 'activo', codigo_subsistema: 'TES', modulo: 'OP', prioridad: 3 },//parametros adicionales que se le pasan al store
+                    baseParams: {estado: 'activo', codigo_subsistema: 'TES', modulo: 'OP'},//(may) para listar para cada estacion su depto en Fondos en avance//parametros adicionales que se le pasan al store
                     renderer: function (value, p, record) {
                         return String.format('{0}', record.data['desc_depto']);
                     }
@@ -711,7 +713,8 @@ header("content-type: text/javascript; charset=UTF-8");
             {name: 'usr_mod', type: 'string'}, 'importe', 'obs', 'nro_correspondencia', 'importe_total_rendido',
             'id_funcionario_cuenta_bancaria', 'sw_solicitud', 'importe_depositos', 'id_periodo', 'periodo',
             'desc_funcionario_cuenta_bancaria', 'tipo_cuenta_doc', 'importe_retenciones',
-            'desc_funcionario', 'desc_moneda', 'desc_depto', 'id_depto_conta', 'id_depto_lb', 'importe_documentos', 'dias_para_rendir'
+            'desc_funcionario', 'desc_moneda', 'desc_depto', 'id_depto_conta', 'id_depto_lb', 'importe_documentos',
+            'dias_para_rendir'
 
         ],
         sortInfo: {
