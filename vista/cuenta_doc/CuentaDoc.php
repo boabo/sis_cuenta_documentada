@@ -140,6 +140,36 @@ header("content-type: text/javascript; charset=UTF-8");
             },
 
             {
+                config:{
+                    name:'tipo_rendicion',
+                    fieldLabel:'Tipo de Rendición',
+                    typeAhead: true,
+                    allowBlank:true,
+                    triggerAction: 'all',
+                    emptyText:'Tipo de Rendición',
+                    selectOnFocus:true,
+                    mode:'local',
+                    store:new Ext.data.ArrayStore({
+                        fields: ['ID', 'valor'],
+                        data :	[
+                            ['rendir','Rendir'],
+                            ['rendir_reponer','Rendir/Reponer']
+                        ]
+                    }),
+                    valueField:'ID',
+                    displayField:'valor',
+                    anchor: '80%',
+                    gwidth:120
+
+                },
+                type:'ComboBox',
+                filters: {pfiltro: 'cdoc.tipo_rendicion', type: 'string'},
+                id_grupo:1,
+                grid:true,
+                form:true
+            },
+
+            {
                 config: {
                     name: 'motivo',
                     qtip: 'Explique el objetivo del fondo solicitado',
@@ -714,7 +744,7 @@ header("content-type: text/javascript; charset=UTF-8");
             'id_funcionario_cuenta_bancaria', 'sw_solicitud', 'importe_depositos', 'id_periodo', 'periodo',
             'desc_funcionario_cuenta_bancaria', 'tipo_cuenta_doc', 'importe_retenciones',
             'desc_funcionario', 'desc_moneda', 'desc_depto', 'id_depto_conta', 'id_depto_lb', 'importe_documentos',
-            'dias_para_rendir'
+            'dias_para_rendir','tipo_rendicion'
 
         ],
         sortInfo: {

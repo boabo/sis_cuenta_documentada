@@ -71,11 +71,7 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_total_rendido','numeric');	
 		$this->captura('id_gestion','INTEGER');
 
-		
-		
-		
-		
-		
+
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -142,7 +138,9 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_total_rendido','numeric');	
 		$this->captura('id_periodo','integer');
 	    $this->captura('periodo','varchar');
-		
+
+	    $this->captura('tipo_rendicion','varchar');
+
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -178,6 +176,8 @@ class MODCuentaDoc extends MODbase{
 		$this->setParametro('id_estado_wf','id_estado_wf','int4');
 		$this->setParametro('importe','importe','numeric');
 		$this->setParametro('id_funcionario_cuenta_bancaria','id_funcionario_cuenta_bancaria','int4');
+
+		$this->setParametro('tipo_rendicion','tipo_rendicion','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -218,6 +218,7 @@ class MODCuentaDoc extends MODbase{
 		$this->setParametro('id_estado_wf','id_estado_wf','int4');
 		$this->setParametro('importe','importe','numeric');
 		$this->setParametro('id_funcionario_cuenta_bancaria','id_funcionario_cuenta_bancaria','int4');
+		$this->setParametro('tipo_rendicion','tipo_rendicion','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -273,9 +274,11 @@ class MODCuentaDoc extends MODbase{
 		$this->setParametro('importe','importe','numeric');
 		$this->setParametro('id_periodo','id_periodo','int4');
 		$this->setParametro('nro_correspondencia','nro_correspondencia','varchar');
-		
-		
+
+
 		$this->setParametro('id_cuenta_doc_fk','id_cuenta_doc_fk','integer');
+
+        $this->setParametro('tipo_rendicion','tipo_rendicion','varchar');
 		
 		
 		//Ejecuta la instruccion
@@ -302,7 +305,9 @@ class MODCuentaDoc extends MODbase{
 		$this->setParametro('importe','importe','numeric');
 		$this->setParametro('id_periodo','id_periodo','int4');
 		$this->setParametro('nro_correspondencia','nro_correspondencia','varchar');
-		
+
+		$this->setParametro('tipo_rendicion','tipo_rendicion','varchar');
+
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

@@ -300,3 +300,12 @@ ALTER TABLE cd.tcuenta_doc
 
 /***********************************F-SCP-CD-GSS-1-14/06/2017****************************************/
 
+/***********************************I-SCP-CD-MAY-0-29/08/2018****************************************/
+ALTER TABLE cd.tcuenta_doc
+  ADD COLUMN tipo_rendicion VARCHAR(50);
+
+COMMENT ON COLUMN cd.tcuenta_doc.tipo_rendicion
+IS 'rendir y rendir/reponer';
+/***********************************F-SCP-CD-MAY-0-29/08/2018****************************************/
+
+
