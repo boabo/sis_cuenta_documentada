@@ -168,17 +168,17 @@ BEGIN
              from param.tperiodo per
              where per.fecha_ini <= v_parametros.fecha and per.fecha_fin >= v_parametros.fecha
              limit 1 offset 0;
-             
-             
+
+
              select g.gestion
              into
              v_anho
              from param.tgestion g
              where g.id_gestion = v_id_gestion;
-             
-             IF v_anho = 2017  then 
+
+             IF v_anho = 2017  then
              raise exception 'No puede Registrar Solicitudes de Fondos en Avance nuevas para la gestión 2017';
-			 END IF;	
+			 END IF;
 
              -- inciar el tramite en el sistema de WF
             SELECT
@@ -238,7 +238,8 @@ BEGIN
                 id_funcionario_gerente,
                 importe,
                 id_funcionario_cuenta_bancaria,
-                id_gestion
+                id_gestion,
+                tipo_rendicion
           	) values(
                 v_parametros.id_tipo_cuenta_doc,
                 v_id_proceso_wf,
@@ -263,7 +264,8 @@ BEGIN
                 va_id_funcionario_gerente[1],
                 v_parametros.importe,
                 v_parametros.id_funcionario_cuenta_bancaria,
-                v_id_gestion
+                v_id_gestion,
+				v_parametros.tipo_rendicion
 
 			)RETURNING id_cuenta_doc into v_id_cuenta_doc;
 
@@ -461,7 +463,9 @@ BEGIN
                 id_funcionario_cuenta_bancaria =  v_parametros.id_funcionario_cuenta_bancaria,
                 id_funcionario_gerente =  va_id_funcionario_gerente[1],
                 id_uo = v_id_uo,
-                id_gestion = v_id_gestion
+                id_gestion = v_id_gestion,
+                tipo_rendicion = v_parametros.tipo_rendicion
+
             where id_cuenta_doc=v_parametros.id_cuenta_doc;
 
 			--Definicion de la respuesta
@@ -1015,7 +1019,9 @@ BEGIN
                     motivo,
                     nro_correspondencia,
                     num_rendicion,
-                    id_periodo
+                    id_periodo,
+                    tipo_rendicion
+
                 ) values(
                     v_id_tipo_cuenta_doc,
                     v_id_proceso_wf,
@@ -1040,7 +1046,8 @@ BEGIN
     				v_parametros.motivo,
                     v_parametros.nro_correspondencia,
                     'R'||v_num_rend::varchar,
-                    v_parametros.id_periodo
+                    v_parametros.id_periodo,
+                    v_parametros.tipo_rendicion
                 )RETURNING id_cuenta_doc into v_id_cuenta_doc;
 
 
@@ -1152,7 +1159,9 @@ BEGIN
                 motivo = v_parametros.motivo,
                 fecha = v_parametros.fecha,
                 nro_correspondencia = v_parametros.nro_correspondencia,
-                id_periodo = v_parametros.id_periodo
+                id_periodo = v_parametros.id_periodo,
+                tipo_rendicion = v_parametros.tipo_rendicion
+
             where id_cuenta_doc=v_parametros.id_cuenta_doc;
 
 			--Definicion de la respuesta
@@ -1430,3 +1439,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION cd.ft_cuenta_doc_ime (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+  OWNER TO postgres;

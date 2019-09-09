@@ -506,7 +506,8 @@ BEGIN
                             cdo.importe::numeric as importe_solicitado,
                             cdo.importe_total_rendido::numeric,
                             cdoc.id_periodo,
-                            pxp.f_obtener_literal_periodo(per.periodo,0) as periodo
+                            pxp.f_obtener_literal_periodo(per.periodo,0) as periodo,
+                            cdoc.tipo_rendicion
 						from cd.tcuenta_doc cdoc
                         inner join cd.tcuenta_doc cdo on cdo.id_cuenta_doc = cdoc.id_cuenta_doc_fk
                         inner join cd.ttipo_cuenta_doc tcd on tcd.id_tipo_cuenta_doc = cdoc.id_tipo_cuenta_doc
@@ -642,7 +643,7 @@ BEGIN
                                intco.c31
                         from cd.vcuenta_doc_revision v
                         left join cd.tcuenta_doc cuen on cuen.id_cuenta_doc_fk = v.id_cuenta_doc
-                        left join conta.tint_comprobante intco on intco.id_int_comprobante = cuen.id_int_comprobante                                                
+                        left join conta.tint_comprobante intco on intco.id_int_comprobante = cuen.id_int_comprobante
           	            where v.fecha_entrega between '''||v_parametros.fecha_ini::date ||''' and ''' ||v_parametros.fecha_fin::date ||'''
           	                 and v.id_tipo_cuenta_doc in ('||v_ids||') '||v_filtro;
 
@@ -1216,3 +1217,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION cd.ft_cuenta_doc_sel (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+  OWNER TO postgres;
