@@ -445,7 +445,7 @@ header("content-type: text/javascript; charset=UTF-8");
             {
                 config: {
                     name: 'id_moneda',
-                    origen: 'MONEDA',
+                    origen: 'MONEDALISTINTERFA',
                     allowBlank: false,
                     fieldLabel: 'Moneda',
                     gdisplayField: 'desc_moneda',//mapea al store del grid
