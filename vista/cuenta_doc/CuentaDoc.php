@@ -450,7 +450,8 @@ header("content-type: text/javascript; charset=UTF-8");
                     fieldLabel: 'Moneda',
                     gdisplayField: 'desc_moneda',//mapea al store del grid
                     gwidth: 50,
-                    baseParams: {'filtrar_base': 'si'},
+                    //se comenta para que tengan opcion las estaciones internacionales para los dos tipos de monedas y bol continua listando su moneda base
+                    //baseParams: {'filtrar_base': 'si'},
                     renderer: function (value, p, record) {
                         return String.format('{0}', record.data['desc_moneda']);
                     }
