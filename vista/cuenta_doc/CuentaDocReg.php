@@ -347,6 +347,8 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ocultarComponente(this.Cmp.nombre_cheque);
 				this.mostrarComponente(this.Cmp.id_funcionario_cuenta_bancaria);
 			}
+            this.ocultarComponente(this.Cmp.tipo_rendicion);
+
 
 		},
 
@@ -357,6 +359,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.ocultarComponente(this.Cmp.id_funcionario_cuenta_bancaria);
 			this.Cmp.fecha.setValue(new Date());
             this.Cmp.fecha.fireEvent('change');
+
+            this.ocultarComponente(this.Cmp.tipo_rendicion);
 		},
 		
 		onButtonEdit : function() {
