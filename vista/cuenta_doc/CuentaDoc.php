@@ -344,7 +344,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     name: 'id_depto',
                     hiddenName: 'Depto',
                     url: '../../sis_parametros/control/Depto/listarDeptoFiltradoXUsuarioFA',
-                    origen: 'DEPTO',
+                    origen: 'DEPTOFA',
                     allowBlank: false,
                     fieldLabel: 'Depto',
                     gdisplayField: 'desc_depto',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
@@ -445,7 +445,7 @@ header("content-type: text/javascript; charset=UTF-8");
             {
                 config: {
                     name: 'id_moneda',
-                    origen: 'MONEDALISTINTERFA',
+                    origen: 'MONEDA',
                     allowBlank: false,
                     fieldLabel: 'Moneda',
                     gdisplayField: 'desc_moneda',//mapea al store del grid
@@ -1259,4 +1259,4 @@ header("content-type: text/javascript; charset=UTF-8");
 
         }
     });
-</script>		
+</script>
