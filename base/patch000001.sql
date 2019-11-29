@@ -309,3 +309,170 @@ IS 'rendir y rendir/reponer';
 /***********************************F-SCP-CD-MAY-0-29/08/2018****************************************/
 
 
+/***********************************I-SCP-CD-AKFG-0-29/11/2019****************************************/
+
+--patch fondos en avance
+COMMENT ON FUNCTION cd.trig_tcuenta_doc()
+IS 'funcion que devuelve un tringger de la tabla tcuenta_doc';
+COMMENT ON FUNCTION cd.ft_tipo_cuenta_doc_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.ttipo_cuenta_doc';
+COMMENT ON FUNCTION cd.ft_tipo_cuenta_doc_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.ttipo_cuenta_doc';
+COMMENT ON FUNCTION cd.ft_tipo_categoria_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.ttipo_categoria';
+COMMENT ON FUNCTION cd.ft_tipo_categoria_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.ttipo_categoria';
+COMMENT ON FUNCTION cd.ft_rendicion_det_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.trendicion_det';
+COMMENT ON FUNCTION cd.ft_rendicion_det_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.trendicion_det';
+COMMENT ON FUNCTION cd.ft_cuenta_doc_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.tcuenta_doc';
+COMMENT ON FUNCTION cd.ft_cuenta_doc_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.tcuenta_doc';
+COMMENT ON FUNCTION cd.ft_categoria_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.tcategoria';
+COMMENT ON FUNCTION cd.ft_categoria_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.tcategoria';
+COMMENT ON FUNCTION cd.ft_bloqueo_cd_sel(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla cd.tbloqueo_cd';
+COMMENT ON FUNCTION cd.ft_bloqueo_cd_ime(p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+IS 'Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla cd.tbloqueo_cd';
+COMMENT ON FUNCTION cd.f_validar_documentos(p_id_usuario integer, p_id_cuenta_doc integer)
+IS 'esta funcion reliza validacion en el registro de documentos y facturas ';
+COMMENT ON FUNCTION cd.f_lista_funcionario_gerente_cd_wf_sel(p_id_usuario integer, p_id_tipo_estado integer, p_fecha date, p_id_estado_wf integer, p_count boolean, p_limit integer, p_start integer, p_filtro varchar)
+IS 'funcion que lista los fucionarios gerente de tesoreria a partir del id_Estado_wf del plan de pagos';
+COMMENT ON FUNCTION cd.f_lista_depto_conta_wf_sel(p_id_usuario integer, p_id_tipo_estado integer, p_fecha date, p_id_estado_wf integer, p_count boolean, p_limit integer, p_start integer, p_filtro varchar)
+IS 'funcion que lista los departamentos de tesoreria que coinciden con la EP y UP de la cotizacion adjudicada';
+COMMENT ON FUNCTION cd.f_gestionar_presupuesto_cd(p_id_cuenta_doc integer, p_id_usuario integer, p_operacion varchar, p_conexion varchar)
+IS 'Esta funcion gestion el presupeusto para las cuentas documentadas';
+COMMENT ON FUNCTION cd.f_gestionar_cbte_cuenta_doc_eliminacion(p_id_usuario integer, p_id_usuario_ai integer, p_usuario_ai varchar, p_id_int_comprobante integer, p_conexion varchar)
+IS 'Esta funcion retrocede el estado de los planes de pago cuando los comprobantes son eliminados';
+COMMENT ON FUNCTION cd.f_gestionar_cbte_cuenta_doc(p_id_usuario integer, p_id_usuario_ai integer, p_usuario_ai varchar, p_id_int_comprobante integer, p_conexion varchar)
+IS 'Esta funcion gestiona los cbtes de cuenta_documentada cuando son validados';
+COMMENT ON FUNCTION cd.f_gestionar_cbte_cd_prevalidacion(p_id_usuario integer, p_id_usuario_ai integer, p_usuario_ai varchar, p_id_int_comprobante integer, p_conexion varchar)
+IS 'Esta funcion revierte el presupeusto comprometido en las facturas rendidas';
+COMMENT ON FUNCTION cd.f_fun_regreso_cuenta_doc_wf(p_id_usuario integer, p_id_usuario_ai integer, p_usuario_ai varchar, p_id_estado_wf integer, p_id_proceso_wf integer, p_codigo_estado varchar)
+IS 'funcion que actualiza los estados despues del registro de un retroceso en la cuenta documentada';
+COMMENT ON FUNCTION cd.f_fun_inicio_cuenta_doc_wf(p_id_usuario integer, p_id_usuario_ai integer, p_usuario_ai varchar, p_id_estado_wf integer, p_id_proceso_wf integer, p_codigo_estado varchar, p_id_depto_lb integer, p_id_cuenta_bancaria integer, p_id_depto_conta integer, p_estado_anterior varchar, p_id_cuenta_bancaria_mov integer)
+IS 'funcion que actualiza los estados despues del registro de estado en cuenta ddocumentada';
+COMMENT ON FUNCTION cd.f_fondos_abiertos(p_id_auxiliar integer, p_id_tabla integer, p_tabla varchar, p_id_tipo_estado_cuenta integer, p_desde date, p_hasta date)
+IS 'esta funcion es hecha para el estado de cuenta de proveedores
+busca todos los pagos pendientes en tesoeria para el proveedor
+los parametors de entrada son
+    p_id_auxiliar integer,
+    p_id_tabla integer,
+    p_tabla varchar,
+    p_id_tipo_estado_cuenta integer,
+    p_desde date,
+    p_hasta date
+
+retorna array numeric
+
+   [1]  moneda base
+   [2]  moneda triangulacion';
+
+--tablas
+
+
+
+COMMENT ON TABLE cd.tcuenta_doc
+IS 'Esta tabla contiene informacion del usuario y el tipo de fondo en avance que solicito un funcionario
+asi como el estado en el que se encuentra el fondo en avance';
+COMMENT ON COLUMN cd.tcuenta_doc.id_depto
+IS 'depto de obligacion de pago';
+COMMENT ON COLUMN cd.tcuenta_doc.id_moneda
+IS 'identificador de la moneda solicitada para el fondo en avance';
+COMMENT ON COLUMN cd.tcuenta_doc.id_proceso_wf
+IS 'identificador del proceso del workflow';
+COMMENT ON COLUMN cd.tcuenta_doc.tipo_pago
+IS 'cheque, transferencia, caja, define de que forma de ara el pago';
+COMMENT ON COLUMN cd.tcuenta_doc.estado
+IS 'estado en el que se encuentra el fondo en avance solicitado';
+COMMENT ON COLUMN cd.tcuenta_doc.sw_modo
+IS 'Deshabilitado...';
+COMMENT ON COLUMN cd.tcuenta_doc.nombre_cheque
+IS 'nombre al que va destinado el cheque';
+COMMENT ON COLUMN cd.tcuenta_doc.motivo
+IS 'motivo de solicitud del fondo en avance';
+COMMENT ON COLUMN cd.tcuenta_doc.id_depto_lb
+IS 'depto de libro de bancos de donde se ara la tranaferencia o cheque';
+COMMENT ON COLUMN cd.tcuenta_doc.id_funcionario_cuenta_bancaria
+IS 'en caso de transferencia describe la cuenta bancaria destino';
+COMMENT ON COLUMN cd.tcuenta_doc.importe
+IS 'importe para ser entregado';
+COMMENT ON COLUMN cd.tcuenta_doc.id_funcionario_gerente
+IS 'funcionario encargado de aprobar';
+COMMENT ON COLUMN cd.tcuenta_doc.id_depto_conta
+IS 'idnetifica el depatamento de conta donde se contabiliza';
+COMMENT ON COLUMN cd.tcuenta_doc.id_cuenta_bancaria
+IS 'cuenta bancaria  con la que se paga';
+COMMENT ON COLUMN cd.tcuenta_doc.id_int_comprobante
+IS 'cbte asociado';
+COMMENT ON COLUMN cd.tcuenta_doc.id_cuenta_bancaria_mov
+IS 'hace referencia en pago de regionales, (depto LB con prioridad = 2),  al deposito de libro de bancos de donde se originan los fondos';
+COMMENT ON COLUMN cd.tcuenta_doc.fecha_entrega
+IS 'fecha a partir de la cual corren los dias para hacer la rendicion';
+COMMENT ON COLUMN cd.tcuenta_doc.sw_max_doc_rend
+IS 'por defecto no permite que se sobre pase el maximo valor configurador en variable globarl para el registro de documentos en rendicion';
+COMMENT ON COLUMN cd.tcuenta_doc.num_memo
+IS 'nro de memo de asignacion de fondos se creea al validar el cbte contable';
+COMMENT ON COLUMN cd.tcuenta_doc.num_rendicion
+IS 'numera el correlativo';
+COMMENT ON COLUMN cd.tcuenta_doc.id_usuario_reg_ori
+IS 'almacena el usuario que registro originalmente, solo en caso de que sea cambio el usuaario que debe regitrar la rendiciones';
+COMMENT ON COLUMN cd.tcuenta_doc.presu_comprometido
+IS 'indica si el presupeusto ya se encuentra comprometido';
+COMMENT ON COLUMN cd.tcuenta_doc.importe_total_rendido
+IS 'importe rendido, solo en solicitudesse llena cuando las rendiciones son finalizadas, peude llegar a ser negativo si se rinde mas de lo solicitado';
+COMMENT ON COLUMN cd.tcuenta_doc.tipo_rendicion
+IS 'rendir y rendir/reponer';
+
+COMMENT ON TABLE cd.ttipo_cuenta_doc
+IS 'Esta tabla contiene informacion del tipo de solicitud para el fondo en avance asi como el codigo
+para la generacion del comprobante ';
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.codigo
+IS
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.nombre
+IS 'nombre del tipo de cuenta de solicitud de fondos en avance';
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.descripcion
+IS 'descripcion del fondo en avance';
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.codigo_wf
+IS 'codigo del proceso de wf correspondiente';
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.codigo_plantilla_cbte
+IS 'codigo de la plantilla de comprobante';
+COMMENT ON COLUMN cd.ttipo_cuenta_doc.sw_solicitud
+IS 'marca los tipo que son solitud';
+
+COMMENT ON TABLE cd.trendicion_det
+IS 'esta tabla contiene informacion de la rendicion de cuentas del fondo en avance
+como ser el documento de compra y venta ';
+COMMENT ON COLUMN cd.trendicion_det.id_doc_compra_venta
+IS 'identificador de los documentos de compra y venta';
+COMMENT ON COLUMN cd.trendicion_det.id_cuenta_doc
+IS 'cuenta doc a la que pertenece la factura rendicida';
+COMMENT ON COLUMN cd.trendicion_det.id_cuenta_doc_rendicion
+IS 'agrupador de la rendicion';
+
+COMMENT ON TABLE cd.tdeposito_cd
+IS 'Esta tabla contiene de saldos a favor depositados en una cuenta bancaria y el libro de bancos del cual se hizo
+el retiro del fondo en avance  ';
+COMMENT ON COLUMN cd.tdeposito_cd.id_libro_bancos
+IS 'identificador del libro de bancos al cual se realizo el deposito del saldo del fondo en avance';
+COMMENT ON COLUMN cd.tdeposito_cd.importe_contable_deposito
+IS 'importe del saldo del fondo en avance depositado al banco correspondiente';
+
+COMMENT ON TABLE cd.tcategoria
+IS 'contiene informacion de las configuraciones del fondo en avances';
+
+COMMENT ON TABLE cd.tbloqueo_cd
+IS 'Esta tabla contiene informacion de los usuarios que bloquearon la rendicion de cuentas
+para el fondo en avance solicitado, al no haber cumplido con la fecha para relizar
+su rendicione en efectivo';
+COMMENT ON COLUMN cd.tbloqueo_cd.id_funcionario
+IS 'identificador del usuario con el fondo en avance bloqueado por no rendir cuentas en el plazo establecido';
+COMMENT ON COLUMN cd.tbloqueo_cd.estado
+IS 'bloqueado o autorizado';
+
+/***********************************F-SCP-CD-AKFG-0-29/11/2019****************************************/
+
