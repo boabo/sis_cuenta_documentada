@@ -131,10 +131,12 @@ BEGIN
              from conta.tdoc_compra_venta
              where id_doc_compra_venta=v_parametros.id_doc_compra_venta;
 
-             IF NOT v_fecha_doc BETWEEN v_registros.fecha_ini AND v_registros.fecha_fin THEN
-             	raise exception 'El documento no corresponde al periodo % %', v_registros.fecha_ini, v_registros.fecha_fin;
-             END IF;
-
+               --quitar el control de verificacion de la fecha de la factura para estaciones que no sean Bolivia (Alan 29/11/2019)
+            IF( pxp.f_get_variable_global('ESTACION_inicio')='BOL')THEN
+                   IF NOT v_fecha_doc BETWEEN v_registros.fecha_ini AND v_registros.fecha_fin THEN
+                      raise exception 'El documento no corresponde al periodo % %', v_registros.fecha_ini, v_registros.fecha_fin;
+                   END IF;
+            end if;
             --raise exception 'llega..';
         	--Sentencia de la insercion
         	insert into cd.trendicion_det(
