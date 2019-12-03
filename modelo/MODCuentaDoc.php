@@ -64,13 +64,14 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_documentos','numeric');
 		$this->captura('importe_retenciones','numeric');		
 		$this->captura('importe_depositos','numeric');
+        $this->captura('importe_reposiciones','numeric');
 		$this->captura('tipo_cuenta_doc','VARCHAR');
 		$this->captura('sw_solicitud','VARCHAR');
 		$this->captura('sw_max_doc_rend','VARCHAR');
 		$this->captura('num_rendicion','VARCHAR');
 		$this->captura('importe_total_rendido','numeric');	
 		$this->captura('id_gestion','INTEGER');
-
+        $this->captura('tipo_rendicion','varchar'); //02/12/2019
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

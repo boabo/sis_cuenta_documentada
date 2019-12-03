@@ -743,7 +743,7 @@ header("content-type: text/javascript; charset=UTF-8");
             {name: 'usr_reg', type: 'string'}, 'sw_max_doc_rend', 'num_rendicion', 'importe_solicitado',
             {name: 'usr_mod', type: 'string'}, 'importe', 'obs', 'nro_correspondencia', 'importe_total_rendido',
             'id_funcionario_cuenta_bancaria', 'sw_solicitud', 'importe_depositos', 'id_periodo', 'periodo',
-            'desc_funcionario_cuenta_bancaria', 'tipo_cuenta_doc', 'importe_retenciones',
+            'desc_funcionario_cuenta_bancaria', 'tipo_cuenta_doc', 'importe_retenciones','importe_reposiciones',
             'desc_funcionario', 'desc_moneda', 'desc_depto', 'id_depto_conta', 'id_depto_lb', 'importe_documentos',
             'dias_para_rendir','tipo_rendicion'
 

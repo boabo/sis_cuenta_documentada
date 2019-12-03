@@ -49,7 +49,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		bexcelGroups : [0, 1, 2, 3],		
 		constructor : function(config) {
 			var me = this;
-
+            console.log('config',config);
             this.tbarItems = ['-',
                 {xtype: 'label',text: 'Gestión:'},
                 this.cmbGestion,'-'];
@@ -72,15 +72,20 @@ header("content-type: text/javascript; charset=UTF-8");
             }
 
 			this.Atributos[this.getIndAtributo('importe')].config.renderer = function(value, p, record) { 
-								    
+						console.log('datos importe',record.data);
+						//console.log('tipo_rendicion'record.data.tipo_rendicion);
 					if (record.data.estado == 'contabilizado') {
-						var  saldo = me.roundTwo(value) - me.roundTwo(record.data.importe_documentos) - me.roundTwo(record.data.importe_depositos) + me.roundTwo(record.data.importe_retenciones);
+					        //03-12-2019 calculo del total entregado para solicitud con reposiciones
+                            var total_entregado=me.roundTwo(value)+me.roundTwo(record.data.importe_reposiciones);
+                             var  saldo = me.roundTwo(total_entregado) - me.roundTwo(record.data.importe_documentos) - me.roundTwo(record.data.importe_depositos) + me.roundTwo(record.data.importe_retenciones);
+
 				        saldo = me.roundTwo(saldo);
-						return String.format("<b><font color = 'red'>Entregado: {0}</font></b><br>"+
-											 "<b><font color = 'green' >En Documentos:{1}</font></b><br>"+
-											 "<b><font color = 'green' >En Depositos:{2}</font></b><br>"+
-											 "<b><font color = 'orange' >Retenciones de Ley:{3}</font></b><br>"+
-											 "<b><font color = 'blue' >Saldo:{4}</font></b>", value, record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo );
+						return String.format("<b><font color = 'red'>Inicial Entregado: {0}</font></b><br>"+
+                                             "<b><font color = 'red'>Total Entregado: {1}</font></b><br>"+
+											 "<b><font color = 'green' >En Documentos:{2}</font></b><br>"+
+											 "<b><font color = 'green' >En Depositos:{3}</font></b><br>"+
+											 "<b><font color = 'orange' >Retenciones de Ley:{4}</font></b><br>"+
+											 "<b><font color = 'blue' >Saldo:{5}</font></b>", value, total_entregado, record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo );
 					} 
 					else if (record.data.estado == 'finalizado') {
 						var  saldo = me.roundTwo(value) - me.roundTwo(record.data.importe_total_rendido);

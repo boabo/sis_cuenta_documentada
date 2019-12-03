@@ -114,9 +114,34 @@ BEGIN
 
                               ELSE
                                  0::numeric
-                              END  as  importe_depositos
+                              END  as  importe_depositos,
 
                               ' ;
+             --03/12/2019 importe reposiciones para el calculo del total entregado
+             v_importe_fac = v_importe_fac ||'
+                              CASE WHEN  lower(cdoc.estado)!=''finalizado'' and sw_solicitud = ''si'' THEN
+
+                                 COALESCE((select sum(COALESCE(dcv.importe_pago_liquido + dcv.importe_descuento_ley,0))
+                                 			from cd.tcuenta_doc cdoc1
+                                            inner join cd.tcuenta_doc cd1 on cd1.id_cuenta_doc_fk = cdoc1.id_cuenta_doc
+                                            inner join cd.trendicion_det rd on rd.id_cuenta_doc_rendicion=cd1.id_cuenta_doc
+                                            inner join conta.tdoc_compra_venta dcv on dcv.id_doc_compra_venta = rd.id_doc_compra_venta
+                                            where dcv.estado_reg = ''activo'' and cd1.tipo_rendicion =''rendir_reponer'' and cdoc1.id_cuenta_doc = cdoc.id_cuenta_doc),0)::numeric
+
+                              WHEN  lower(cdoc.estado)!=''rendido'' and sw_solicitud = ''no'' THEN
+
+                                 COALESCE((select sum(COALESCE(dcv.importe_pago_liquido + dcv.importe_descuento_ley,0))
+                                 			from cd.tcuenta_doc cdoc1
+                                            inner join cd.tcuenta_doc cd1 on cd1.id_cuenta_doc_fk = cdoc1.id_cuenta_doc
+                                            inner join cd.trendicion_det rd on rd.id_cuenta_doc_rendicion=cd1.id_cuenta_doc
+                                            inner join conta.tdoc_compra_venta dcv on dcv.id_doc_compra_venta = rd.id_doc_compra_venta
+                                            where dcv.estado_reg = ''activo'' and cd1.tipo_rendicion =''rendir_reponer'' and rd.id_cuenta_doc_rendicion = cdoc.id_cuenta_doc),0)::numeric
+
+                              ELSE
+                                 0::numeric
+                              END  as  importe_reposiciones
+
+                              ';
 
 
            v_filtro='';
