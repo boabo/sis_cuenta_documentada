@@ -476,3 +476,11 @@ IS 'bloqueado o autorizado';
 
 /***********************************F-SCP-CD-AKFG-0-29/11/2019****************************************/
 
+/***********************************I-SCP-CD-MAY-0-30/11/2019****************************************/
+ALTER TABLE cd.tcuenta_doc
+  ADD COLUMN id_int_comprobante_reposicion INTEGER;
+
+COMMENT ON COLUMN cd.tcuenta_doc.id_int_comprobante_reposicion
+IS 'id del comprobante cuando este tiene la opcion de tipo_rendicion rendir_reponer';
+/***********************************F-SCP-CD-MAY-0-18/09/2019****************************************/
+
