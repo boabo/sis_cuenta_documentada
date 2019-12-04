@@ -1,5 +1,5 @@
 <br><br><br>
-<table width="90%" cellpadding="5px"  rules="cols" border="0" style="font-size: 10" border="0">
+<table width="90%" cellpadding="2px"  rules="cols" border="0" style="font-size: 10" border="0">
 	<tbody>
 	<tr>		
 		<td width="80%" align="left"><span><b>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->datos_detalle[0]["desc_funcionario"]?></span></td>				
@@ -7,13 +7,13 @@
 	<tr>		
         <td width="80%" align="left"><span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->datos_detalle[0]["cargo_funcionario"]?></b></span></td>				
 	</tr>
-	<tr>		
+	<tr><br>		
 		<td width="80%" align="left"><span><b>DE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->datos_detalle[0]["aprobador"]?></span></td>				
 	</tr>
 	<tr>		
         <td width="80%" align="left"><span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->datos_detalle[0]["cargo_aprobador"]?></b></span></td>				
 	</tr>
-	<tr>		
+	<tr><br>		
         <td width="80%" align="left"><span><b>Asunto: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASIGNACION DE FONDOS EN AVANCE, &nbsp;&nbsp;<?php echo $this->datos_detalle[0]["nro_tramite"]?><br></b></span></td>				
 	</tr>   
 </tbody>
@@ -37,7 +37,7 @@
 	<tr>
         <td width="3%"></td>				
 		<td width="100%" align="justify" style="text-align: justify;">El importe asignado es de  <?php echo $cod_moneda.' '.$importe.'.- ('.$importe_literal.' '.$cod_moneda.'.)'.' según trámite '.$nro_tramite.', 
-            comprobante Nro. '.$num_cbte.' y número de cheque '.$nro_cheque ?>.
+            comprobante Nro. '.$nro_cbte.' y número de cheque '.$nro_cheque ?>.
         </td>
 	</tr>   
 	<tr>		
@@ -71,10 +71,10 @@
         <table>
             <tr>
             <td style="width: 25%"></td>
-            <td style="width: 50%">
+            <td style="width: 45%">
             <table cellspacing="0" cellpadding="1" border="1" style="font-family: Calibri; font-size: 9px;">
                 <tr>            
-                    <td style="font-family: Calibri; font-size: 9px;"><b> Aprobado por:</b><?php echo $aprobador?></td>
+                    <td style="font-family: Calibri; font-size: 9px;"><b> Aprobado por: &nbsp;</b><?php echo $aprobador?></td>
                 </tr>
                 <tr>
                     <td align="center" >
