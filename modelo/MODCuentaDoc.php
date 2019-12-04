@@ -460,7 +460,9 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('num_memo','VARCHAR');
 		$this->captura('num_rendicion','VARCHAR');
 		$this->captura('nro_cheque','varchar');		
-		$this->captura('importe_solicitado','numeric');		
+		$this->captura('importe_solicitado','numeric');
+        $this->captura('genero_solicitante', 'varchar');
+        $this->captura('texto_memo', 'text');
 		
 		
 		
@@ -537,7 +539,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('id_rendicion_det','integer');
 		$this->captura('id_cuenta_doc','integer');
 		$this->captura('id_cuenta_doc_rendicion','integer');
-		$this->captura('detalle','text');
+		$this->captura('detalle','text');//falta esto en produccion
+
 		
 		
 		

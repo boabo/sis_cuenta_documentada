@@ -432,7 +432,8 @@ COMMENT ON TABLE cd.ttipo_cuenta_doc
 IS 'Esta tabla contiene informacion del tipo de solicitud para el fondo en avance asi como el codigo
 para la generacion del comprobante ';
 COMMENT ON COLUMN cd.ttipo_cuenta_doc.codigo
-IS
+IS 'codigo del tipo de cuenta para el fondo en avance';
+
 COMMENT ON COLUMN cd.ttipo_cuenta_doc.nombre
 IS 'nombre del tipo de cuenta de solicitud de fondos en avance';
 COMMENT ON COLUMN cd.ttipo_cuenta_doc.descripcion
