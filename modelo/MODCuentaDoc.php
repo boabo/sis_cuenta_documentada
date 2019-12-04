@@ -539,7 +539,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('id_rendicion_det','integer');
 		$this->captura('id_cuenta_doc','integer');
 		$this->captura('id_cuenta_doc_rendicion','integer');
-		$this->captura('detalle','text');//falta esto en produccion
+       $this->captura('detalle','text');
+		
 
 		
 		

@@ -576,4 +576,64 @@ AS
 
 /***********************************F-DEP-RAC-CD-0-24/08/2017*****************************************/
 
+/***********************************I-DEP-MAY-CD-0-18/11/2019*****************************************/
+CREATE OR REPLACE VIEW cd.vcuenta_doc_reposicion(
+    id_cuenta_doc,
+    id_funcionario,
+    id_depto_conta,
+    fecha_cbte,
+    id_moneda,
+    id_gestion,
+    id_cuenta_bancaria,
+    id_cuenta_bancaria_mov,
+    importe,
+    nro_tramite,
+    funcionario_solicitante,
+    id_depto_lb,
+    nro_cuenta,
+    id_institucion,
+    nombre_cheque,
+    motivo,
+    tipo_pago,
+    nombre_pago,
+    prioridad,
+    id_proceso_wf,
+    correo_solicitante,
+    moneda)
+AS
+  SELECT ren.id_cuenta_doc,
+         sol.id_funcionario,
+         sol.id_depto_conta,
+         now()::date AS fecha_cbte,
+         sol.id_moneda,
+         sol.id_gestion,
+         sol.id_cuenta_bancaria,
+         sol.id_cuenta_bancaria_mov,
+         ren.importe,
+         ren.nro_tramite,
+         f.desc_funcionario1 AS funcionario_solicitante,
+         sol.id_depto_lb,
+         fcb.nro_cuenta,
+         fcb.id_institucion,
+         sol.nombre_cheque,
+         ren.motivo,
+         sol.tipo_pago,
+         CASE
+           WHEN sol.tipo_pago::text = 'cheque'::text THEN sol.nombre_cheque
+           ELSE f.desc_funcionario1::character varying
+         END AS nombre_pago,
+         de.prioridad,
+         ren.id_proceso_wf,
+         fu.email_empresa AS correo_solicitante,
+         mo.codigo AS moneda
+  FROM cd.tcuenta_doc ren
+       JOIN cd.tcuenta_doc sol ON sol.id_cuenta_doc = ren.id_cuenta_doc_fk
+       JOIN orga.vfuncionario f ON f.id_funcionario = sol.id_funcionario
+       JOIN orga.tfuncionario fu ON fu.id_funcionario = sol.id_funcionario
+       JOIN param.tdepto de ON de.id_depto = sol.id_depto
+       JOIN param.tmoneda mo ON mo.id_moneda = sol.id_moneda
+       LEFT JOIN orga.tfuncionario_cuenta_bancaria fcb ON
+         fcb.id_funcionario_cuenta_bancaria = sol.id_funcionario_cuenta_bancaria
+         ;
+/***********************************F-DEP-MAY-CD-0-18/11/2019*****************************************/
 
