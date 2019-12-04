@@ -11,7 +11,7 @@ require_once(dirname(__FILE__).'/../reportes/RRendicionCD.php');
 require_once(dirname(__FILE__).'/../reportes/RCuentaDoc.php');
 require_once(dirname(__FILE__).'/../reportes/RRendicionConXls.php');
 require_once(dirname(__FILE__).'/../reportes/RMemoAsignacion.php');
-
+require_once(dirname(__FILE__).'/../reportes/RMemoAsignacionPdf.php');
 
 class ACTCuentaDoc extends ACTbase{    
 			
@@ -528,10 +528,68 @@ class ACTCuentaDoc extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
-	
-	
-				
-	
-	
+    function reporteMemoDesignacionPdf(){
+                	        				
+        $nombreArchivo = uniqid(md5(session_id()).'MemoAsignación').'.pdf';		
+		$dataSource = $this->recuperarSolicitudFondos();	
+		
+		//parametros basicos
+		$tamano = 'LETTER';
+		$orientacion = 'p';
+		$this->objParam->addParametro('orientacion',$orientacion);
+		$this->objParam->addParametro('tamano',$tamano);		
+		$this->objParam->addParametro('titulo_archivo',$titulo);        
+		$this->objParam->addParametro('nombre_archivo',$nombreArchivo);
+		//Instancia la clase de pdf
+        $reporte = new RMemoAsignacionPdf($this->objParam);		
+
+		$reporte->datosHeader($dataSource->getDatos(),  $dataSource->extraData);
+		$reporte->generarReporte();
+		$reporte->output($reporte->url_archivo,'F');
+		
+		$this->mensajeExito=new Mensaje();
+		$this->mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado','Se generó con éxito el reporte: '.$nombreArchivo,'control');
+		$this->mensajeExito->setArchivoGenerado($nombreArchivo);
+		$this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
+		
+    }
+    function recuperarSolicitudFondosTesor(){
+    	
+		$this->objFunc = $this->create('MODCuentaDoc');
+		$cbteHeader = $this->objFunc->reporteCabeceraCuentaDocTesor($this->objParam);
+		if($cbteHeader->getTipo() == 'EXITO'){				
+			return $cbteHeader;
+		}
+        else{
+		    $cbteHeader->imprimirRespuesta($cbteHeader->generarJson());
+			exit;
+		}              
+		
+    }
+
+    function reporteMemoDesignacionPdfTesoreria () {
+        $nombreArchivo = uniqid(md5(session_id()).'MemoAsignación').'.pdf';		
+		$dataSource = $this->recuperarSolicitudFondosTesor();	
+		
+		//parametros basicos
+		$tamano = 'LETTER';
+		$orientacion = 'p';
+		$this->objParam->addParametro('orientacion',$orientacion);
+		$this->objParam->addParametro('tamano',$tamano);		
+		$this->objParam->addParametro('titulo_archivo',$titulo);        
+		$this->objParam->addParametro('nombre_archivo',$nombreArchivo);
+		//Instancia la clase de pdf
+        $reporte = new RMemoAsignacionPdf($this->objParam);		
+
+		$reporte->datosHeader($dataSource->getDatos(),  $dataSource->extraData);
+		$reporte->generarReporte();
+		$reporte->output($reporte->url_archivo,'F');
+		
+		$this->mensajeExito=new Mensaje();
+		$this->mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado','Se generó con éxito el reporte: '.$nombreArchivo,'control');
+		$this->mensajeExito->setArchivoGenerado($nombreArchivo);
+		$this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
+    }
+
 }
 ?>

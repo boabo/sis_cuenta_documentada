@@ -866,7 +866,14 @@ BEGIN
 
            --recupera el gerente financiero ...
           v_gaf = orga.f_obtener_gerente_x_codigo_uo('gerente_financiero', now()::Date);
-
+        --incremento breydi vasquez (04/11/2019) cambio memorandum de fondo en avance tipo pdf 
+		  v_filtro = ' ';
+		 if pxp.f_existe_parametro(p_tabla, 'action')then
+         	 v_filtro = ' lb.id_proceso_wf = '||v_parametros.id_proceso_wf;
+         else
+         	v_filtro = ' cdoc.id_proceso_wf = '||v_parametros.id_proceso_wf;
+         end if;
+         -- fin bvp
 
     	  --Sentencia de la consulta
 		  v_consulta:='select
@@ -922,7 +929,13 @@ BEGIN
                             cdoc.num_memo,
                             COALESCE(cdoc.num_rendicion,''s/n'') as num_rendicion,
                             lb.nro_cheque,
-                            cdori.importe as importe_solicitado
+                            cdori.importe as importe_solicitado,
+                            CASE
+                            WHEN pe.genero::text = ANY (ARRAY[''varon''::character varying,''VARON''::character varying, ''Varon''::character varying]::text[]) THEN ''M''::text
+                            WHEN pe.genero::text = ANY (ARRAY[''mujer''::character varying,''MUJER''::character varying, ''Mujer''::character varying]::text[]) THEN ''F''::text
+                            ELSE ''''::text
+                            END::character varying AS genero_solicitante,
+                            lower(lb.detalle) as texto_memo                            
                        	from cd.tcuenta_doc cdoc
                         inner join orga.tuo uo on uo.id_uo = cdoc.id_uo
                         inner join cd.ttipo_cuenta_doc tcd on tcd.id_tipo_cuenta_doc = cdoc.id_tipo_cuenta_doc
@@ -940,7 +953,7 @@ BEGIN
                         left join orga.tfuncionario_cuenta_bancaria fcb on fcb.id_funcionario_cuenta_bancaria = cdoc.id_funcionario_cuenta_bancaria
 
 
-						where  cdoc.id_proceso_wf = '||v_parametros.id_proceso_wf;
+						where  '||v_filtro;
 
                         raise notice '%', v_consulta;
 
