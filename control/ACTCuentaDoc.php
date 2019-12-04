@@ -64,11 +64,11 @@ class ACTCuentaDoc extends ACTbase{
         }
 		
 		if(strtolower($this->objParam->getParametro('estado'))=='validacion'){
-             $this->objParam->addFiltro("(cdoc.estado not in (''borrador'',''contabilizado'',''rendido'',''anulado''))");
+             $this->objParam->addFiltro("(cdoc.estado not in (''borrador'',''contabilizado'',''rendido'',''anulado'',''reposicion''))");
         }
 		
 		if(strtolower($this->objParam->getParametro('estado'))=='finalizados'){
-             $this->objParam->addFiltro("(cdoc.estado in (''rendido'',''anulado''))");
+             $this->objParam->addFiltro("(cdoc.estado in (''rendido'',''anulado'',''reposicion''))");
         }
 		
 		$this->objParam->addParametro('id_funcionario_usu',$_SESSION["ss_id_funcionario"]); 
