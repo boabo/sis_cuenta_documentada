@@ -951,7 +951,8 @@ BEGIN
                         left join cd.tcuenta_doc cdori on cdori.id_cuenta_doc = cdoc.id_cuenta_doc_fk
 						left join segu.tusuario usu2 on usu2.id_usuario = cdoc.id_usuario_mod
                         left join orga.tfuncionario_cuenta_bancaria fcb on fcb.id_funcionario_cuenta_bancaria = cdoc.id_funcionario_cuenta_bancaria
-
+                        inner join orga.vfuncionario_persona f on f.id_funcionario = cdoc.id_funcionario
+                        inner join segu.vpersona2 pe on pe.id_persona = f.id_persona
 
 						where  '||v_filtro;
 
