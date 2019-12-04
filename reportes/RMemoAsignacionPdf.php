@@ -65,7 +65,7 @@ class RMemoAsignacionPdf extends  ReportePDF {
 
     
     function codigoQr ($gerente, $cargo_gerente, $nro_tramite){
-        $cadena = 'Gerente: '.$gerente."\n".'Cargo: '.$cargo_gerente."\n".'N° Tramite: '.$nro_tramite;
+        $cadena = 'Aprobado por: '.$gerente."\n".'Cargo: '.$cargo_gerente."\n".'N° Tramite: '.$nro_tramite;
         $barcodeobj = new TCPDF2DBarcode($cadena, 'QRCODE,M');
         $png = $barcodeobj->getBarcodePngData($w = 8, $h = 8, $color = array(0, 0, 0));
         $im = imagecreatefromstring($png);
