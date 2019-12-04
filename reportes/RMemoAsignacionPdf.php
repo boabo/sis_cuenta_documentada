@@ -95,6 +95,17 @@ class RMemoAsignacionPdf extends  ReportePDF {
 			$this->AddPage();
 		    
 		} 		 		
-	}
+    }
+    function Footer() {
+        $this->Ln();        
+        $ormargins = $this->getOriginalMargins();
+        $this->SetTextColor(0, 0, 0);
+        //set style for cell border
+        $line_width = 0.85 / $this->getScaleFactor();
+        $this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+        $ancho = round(($this->getPageWidth() - $ormargins['left'] - $ormargins['right']) / 3);
+        $this->Ln(2);
+        $cur_y = $this->GetY();        
+    }    
 }
 ?>
