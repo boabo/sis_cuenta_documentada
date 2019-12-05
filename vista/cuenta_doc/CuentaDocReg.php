@@ -85,7 +85,7 @@ header("content-type: text/javascript; charset=UTF-8");
 											 "<b><font color = 'green' >En Documentos:{2}</font></b><br>"+
 											 "<b><font color = 'green' >En Depositos:{3}</font></b><br>"+
 											 "<b><font color = 'orange' >Retenciones de Ley:{4}</font></b><br>"+
-											 "<b><font color = 'blue' >Saldo:{5}</font></b>", value, total_entregado, record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo );
+											 "<b><font color = 'blue' >Saldo:{5}</font></b>", value, me.roundTwo(total_entregado), record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo );
 					} 
 					else if (record.data.estado == 'finalizado') {
 						var  saldo = me.roundTwo(value) - me.roundTwo(record.data.importe_total_rendido);
