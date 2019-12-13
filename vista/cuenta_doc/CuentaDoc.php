@@ -144,7 +144,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     name:'tipo_rendicion',
                     fieldLabel:'Tipo de Rendición',
                     typeAhead: true,
-                    allowBlank:true,
+                    allowBlank:false,
                     triggerAction: 'all',
                     emptyText:'Tipo de Rendición',
                     selectOnFocus:true,
