@@ -330,5 +330,9 @@ select pxp.f_insert_testructura_gui ('CONCD', 'CD');
 /***********************************F-DAT-RAC-CD-0-25/08/2017*****************************************/
 
 
-
+/***********************************I-DAT-YMR-CD-0-23/12/2019*****************************************/
+INSERT INTO cd.ttipo_cuenta_doc ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_usuario_ai", "usuario_ai", "id_tipo_cuenta_doc", "codigo", "nombre", "descripcion", "codigo_wf", "codigo_plantilla_cbte", "sw_solicitud")
+VALUES 
+  (1, 1, now(), NULL, 'activo', NULL, 'NULL', 7, 'SOLCAJCAN', 'Solicitud Caja Cambio', 'Solicitud para Caja Cambio', 'SCC', 'SOLCAJACA', 'si');
+/***********************************F-DAT-YMR-CD-0-23/12/2019*****************************************/  
 

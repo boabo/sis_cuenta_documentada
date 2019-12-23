@@ -379,7 +379,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     displayField: 'valor',
                     store: new Ext.data.ArrayStore({
                         fields: ['variable', 'valor'],
-                        data: [['1', 'Solicitud Comun']]
+                        data: [['1', 'Solicitud Comun'],['7', 'Solicitud Caja Cambio']]
                     })
                 },
                 type: 'ComboBox',
@@ -816,15 +816,15 @@ header("content-type: text/javascript; charset=UTF-8");
 
         onAntEstado: function (wizard, resp) {
             Phx.CP.loadingShow();
-            var operacion = 'cambiar';
-            operacion = resp.estado_destino == 'inicio' ? 'inicio' : operacion;
+            /*var operacion = 'cambiar';
+            operacion = resp.estado_destino == 'inicio' ? 'inicio' : operacion;*/
             Ext.Ajax.request({
                 url: '../../sis_cuenta_documentada/control/CuentaDoc/anteriorEstado',
                 params: {
                     id_proceso_wf: resp.id_proceso_wf,
                     id_estado_wf: resp.id_estado_wf,
                     obs: resp.obs,
-                    operacion: operacion,
+                    estado_destino: resp.estado_destino,
                     id_cuenta_doc: resp.data.id_cuenta_doc
                 },
                 argument: {wizard: wizard},

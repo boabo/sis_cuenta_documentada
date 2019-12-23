@@ -398,67 +398,92 @@ class MODRendicionDet extends MODbase{
 			/////////////////////////
 			//  inserta cabecera de la solicitud de compra
 			///////////////////////
-			
-			//Definicion de variables para ejecucion del procedimiento
-			$this->procedimiento='conta.ft_doc_compra_venta_ime';
-			$this->transaccion='CONTA_DCV_MOD';
-			$this->tipo_procedimiento='IME';
-					
-			//Define los parametros para la funcion
-			$this->setParametro('id_doc_compra_venta','id_doc_compra_venta','int4');
-			$this->setParametro('revisado','revisado','varchar');
-			$this->setParametro('movil','movil','varchar');
-			$this->setParametro('tipo','tipo','varchar');
-			$this->setParametro('importe_excento','importe_excento','numeric');
-			$this->setParametro('id_plantilla','id_plantilla','int4');
-			$this->setParametro('fecha','fecha','date');
-			$this->setParametro('nro_documento','nro_documento','varchar');
-			$this->setParametro('nit','nit','varchar');
-			$this->setParametro('importe_ice','importe_ice','numeric');
-			$this->setParametro('nro_autorizacion','nro_autorizacion','varchar');
-			$this->setParametro('importe_iva','importe_iva','numeric');
-			$this->setParametro('importe_descuento','importe_descuento','numeric');
-			$this->setParametro('importe_doc','importe_doc','numeric');
-			$this->setParametro('sw_contabilizar','sw_contabilizar','varchar');
-			$this->setParametro('tabla_origen','tabla_origen','varchar');
-			$this->setParametro('estado','estado','varchar');
-			$this->setParametro('id_depto_conta','id_depto_conta','int4');
-			$this->setParametro('id_origen','id_origen','int4');
-			$this->setParametro('obs','obs','varchar');
-			$this->setParametro('estado_reg','estado_reg','varchar');
-			$this->setParametro('codigo_control','codigo_control','varchar');
-			$this->setParametro('importe_it','importe_it','numeric');
-			$this->setParametro('razon_social','razon_social','varchar');
-			$this->setParametro('importe_descuento_ley','importe_descuento_ley','numeric');
-			$this->setParametro('importe_pago_liquido','importe_pago_liquido','numeric');
-			$this->setParametro('nro_dui','nro_dui','varchar');
-			$this->setParametro('id_moneda','id_moneda','int4');			
-			
-			$this->setParametro('importe_pendiente','importe_pendiente','numeric');
-			$this->setParametro('importe_anticipo','importe_anticipo','numeric');
-			$this->setParametro('importe_retgar','importe_retgar','numeric');
-			$this->setParametro('importe_neto','importe_neto','numeric');
-			$this->setParametro('id_auxiliar','id_auxiliar','integer');
+            //cuando se relaciona una nueva factura se tregistra
+            $new_relation = $this->aParam->getParametro('new_relation_editable');
+            if ($new_relation=='sii') {
+                $this->procedimiento='cd.ft_rendicion_det_ime';
+                $this->transaccion='CD_REND_INS';
+                $this->tipo_procedimiento='IME';
 
-            $this->setParametro('fecha_vencimiento','fecha_vencimiento','date');
-            $this->setParametro('tipo_cambio','tipo_cambio','numeric');
+                $this->setParametro('id_doc_compra_venta','id_doc_compra_venta','int4');
+                $this->setParametro('id_cuenta_doc','id_cuenta_doc','int4');
 
-			//Ejecuta la instruccion
-            $this->armarConsulta();
-			$stmt = $link->prepare($this->consulta);		  
-		  	$stmt->execute();
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);				
-			
-			//recupera parametros devuelto depues de insertar ... (id_solicitud)
-			$resp_procedimiento = $this->divRespuesta($result['f_intermediario_ime']);
-			if ($resp_procedimiento['tipo_respuesta']=='ERROR') {
-				throw new Exception("Error al ejecutar en la bd", 3);
-			}
-			
-			$respuesta = $resp_procedimiento['datos'];
-			
-			$id_doc_compra_venta = $respuesta['id_doc_compra_venta'];
-			
+                $this->armarConsulta();
+                $stmt = $link->prepare($this->consulta);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $resp_procedimiento = $this->divRespuesta($result['f_intermediario_ime']);
+                if ($resp_procedimiento['tipo_respuesta']=='ERROR') {
+                    throw new Exception("Error al ejecutar en la bd", 3);
+                }
+                $this->resetParametros();
+            }
+            //cuando se relaciona una nueva factura se tregistra
+            if ($new_relation=='sii') {
+                $id_doc_compra_venta =  $this->aParam->getParametro('id_doc_compra_venta');
+            }else{
+                //Definicion de variables para ejecucion del procedimiento
+                $this->procedimiento='conta.ft_doc_compra_venta_ime';
+                $this->transaccion='CONTA_DCV_MOD';
+                $this->tipo_procedimiento='IME';
+
+                //Define los parametros para la funcion
+                $this->setParametro('id_doc_compra_venta','id_doc_compra_venta','int4');
+                $this->setParametro('revisado','revisado','varchar');
+                $this->setParametro('movil','movil','varchar');
+                $this->setParametro('tipo','tipo','varchar');
+                $this->setParametro('importe_excento','importe_excento','numeric');
+                $this->setParametro('id_plantilla','id_plantilla','int4');
+                $this->setParametro('fecha','fecha','date');
+                $this->setParametro('nro_documento','nro_documento','varchar');
+                $this->setParametro('nit','nit','varchar');
+                $this->setParametro('importe_ice','importe_ice','numeric');
+                $this->setParametro('nro_autorizacion','nro_autorizacion','varchar');
+                $this->setParametro('importe_iva','importe_iva','numeric');
+                $this->setParametro('importe_descuento','importe_descuento','numeric');
+                $this->setParametro('importe_doc','importe_doc','numeric');
+                $this->setParametro('sw_contabilizar','sw_contabilizar','varchar');
+                $this->setParametro('tabla_origen','tabla_origen','varchar');
+                $this->setParametro('estado','estado','varchar');
+                $this->setParametro('id_depto_conta','id_depto_conta','int4');
+                $this->setParametro('id_origen','id_origen','int4');
+                $this->setParametro('obs','obs','varchar');
+                $this->setParametro('estado_reg','estado_reg','varchar');
+                $this->setParametro('codigo_control','codigo_control','varchar');
+                $this->setParametro('importe_it','importe_it','numeric');
+                $this->setParametro('razon_social','razon_social','varchar');
+                $this->setParametro('importe_descuento_ley','importe_descuento_ley','numeric');
+                $this->setParametro('importe_pago_liquido','importe_pago_liquido','numeric');
+                $this->setParametro('nro_dui','nro_dui','varchar');
+                $this->setParametro('id_moneda','id_moneda','int4');
+
+                $this->setParametro('importe_pendiente','importe_pendiente','numeric');
+                $this->setParametro('importe_anticipo','importe_anticipo','numeric');
+                $this->setParametro('importe_retgar','importe_retgar','numeric');
+                $this->setParametro('importe_neto','importe_neto','numeric');
+                $this->setParametro('id_auxiliar','id_auxiliar','integer');
+
+                $this->setParametro('fecha_vencimiento','fecha_vencimiento','date');
+                $this->setParametro('tipo_cambio','tipo_cambio','numeric');
+
+                //Ejecuta la instruccion
+                $this->armarConsulta();
+                $stmt = $link->prepare($this->consulta);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                //recupera parametros devuelto depues de insertar ... (id_solicitud)
+                $resp_procedimiento = $this->divRespuesta($result['f_intermediario_ime']);
+                if ($resp_procedimiento['tipo_respuesta']=='ERROR') {
+                    throw new Exception("Error al ejecutar en la bd", 3);
+                }
+
+                $respuesta = $resp_procedimiento['datos'];
+
+                $id_doc_compra_venta = $respuesta['id_doc_compra_venta'];
+            }
+
 			
 			
 			//////////////////////////////////////////////
@@ -812,6 +837,38 @@ class MODRendicionDet extends MODbase{
 	    
 	    return $this->respuesta;		
 	}
+
+	function eliminarRelacionDetalle(){
+        //Definicion de variables para ejecucion del procedimiento
+        $this->procedimiento='cd.ft_rendicion_det_ime';
+        $this->transaccion='CD_RELDET_ELI';
+        $this->tipo_procedimiento='IME';
+
+        //Define los parametros para la funcion
+        $this->setParametro('id_rendicion_det','id_rendicion_det','int4');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
+    function getRendicionDet(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='cd.ft_rendicion_det_ime';
+        $this->transaccion='CD_RENDET_GET';
+        $this->tipo_procedimiento='IME';//tipo de transaccion
+
+        $this->setParametro('id_doc_compra_venta','id_doc_compra_venta','int4');
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 			
 }
 ?>

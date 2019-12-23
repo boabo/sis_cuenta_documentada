@@ -47,6 +47,7 @@ DECLARE
     v_id_doc_compra_venta   integer;
 
     v_estacion				varchar;
+    v_registros_2			record;					   
 
 BEGIN
 
@@ -87,11 +88,20 @@ BEGIN
 
 			--raise exception 'id %',v_parametros.id_plantilla;
 
-            select doc.desc_plantilla
-            into
-            v_nombre_plantilla
-            from param.tplantilla doc
-            where doc.id_plantilla = v_parametros.id_plantilla;
+			if(pxp.f_existe_parametro(p_tabla,'id_plantilla')) then
+            	select doc.desc_plantilla
+                into
+                v_nombre_plantilla
+                from param.tplantilla doc
+                where doc.id_plantilla = v_parametros.id_plantilla;
+            else
+              	select pl.desc_plantilla
+                into
+                v_nombre_plantilla
+                from conta.tdoc_compra_venta cv
+                join param.tplantilla pl on cv.id_plantilla = pl.id_plantilla
+                where cv.id_doc_compra_venta = v_parametros.id_doc_compra_venta;
+            end if;
 
            --raise exception 'llega %',v_parametros.importe_pago_liquido;
 
@@ -306,6 +316,23 @@ BEGIN
             IF v_tipo_informe = 'lcv' THEN
 	            v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
     		END IF;
+			
+			--revisa si el documento no esta marcado como revisado
+            select
+              dcv.revisado,
+              dcv.id_int_comprobante,
+              dcv.tabla_origen,
+              dcv.id_origen,
+              dcv.id_depto_conta,
+              dcv.fecha,
+              dcv.id_plantilla
+            into
+              v_registros_2
+            from conta.tdoc_compra_venta dcv where dcv.id_doc_compra_venta =v_registros.id_doc_compra_venta;
+
+            IF  v_registros_2.revisado = 'si' THEN
+              raise exception 'los documentos revisados no pueden eliminarse';
+            END IF;
 
             --elimina el dadetalle del documento
             delete
@@ -452,8 +479,210 @@ BEGIN
 
 		end;
 
+	/*********************************
+ 	#TRANSACCION:  'CD_RELDET_ELI'
+ 	#DESCRIPCION:	Eliminacion de la relacion trendicion_det
+ 	#AUTOR:		YMR
+ 	#FECHA:		17-12-2019 18:01:48
+	***********************************/
+
+	elsif(p_transaccion='CD_RELDET_ELI')then
+
+		begin
+
+           select
+               rd.*,
+               dcv.id_depto_conta,
+               dcv.fecha ,
+               c.estado,
+               dcv.id_plantilla
+            into
+               v_registros
+            from cd.trendicion_det rd
+            inner join cd.tcuenta_doc c on c.id_cuenta_doc = rd.id_cuenta_doc_rendicion
+            inner join conta.tdoc_compra_venta dcv on dcv.id_doc_compra_venta = rd.id_doc_compra_venta
+            where rd.id_rendicion_det = v_parametros.id_rendicion_det;
 
 
+            -- solo eliminar documentos en borrador o vbrendicion
+
+            IF v_registros.estado not in ('borrador','vbrendicion') THEN
+                raise exception 'no puede elimianr documentos que  esten en borrador o visto bueno rendición';
+            END IF;
+
+            IF v_cd_comprometer_presupuesto = 'si' THEN
+                raise exception 'Solo puede eliminar  en estado borrador por que los documentos se encuentran comprometidos';
+            END IF;
+
+
+            --validar si el periodo de conta esta cerrado o abierto
+            -- recuepra el periodo de la fecha ...
+            --Obtiene el periodo a partir de la fecha
+        	v_rec = param.f_get_periodo_gestion(v_registros.fecha);
+
+            select tipo_informe into v_tipo_informe
+      		from param.tplantilla
+      		where id_plantilla = v_registros.id_plantilla;
+
+            -- valida que period de libro de compras y ventas este abierto
+            IF v_tipo_informe = 'lcv' THEN
+	            v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
+    		END IF;
+            
+            select rdd.id_doc_compra_venta
+            into v_id_doc_compra_venta
+            from cd.trendicion_det rdd
+            where rdd.id_rendicion_det = v_parametros.id_rendicion_det;
+            
+             --elimina el dadetalle del documento
+            delete
+            from conta.tdoc_concepto d
+            where d.id_doc_compra_venta = v_id_doc_compra_venta;
+
+            --elimina la rendicion
+			delete from cd.trendicion_det
+            where id_rendicion_det=v_parametros.id_rendicion_det;
+			
+			--elimina relacion con la factura 
+            update conta.tdoc_compra_venta
+            set    nro_tramite = NULL
+            where  id_doc_compra_venta = v_id_doc_compra_venta; 
+
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Detalle de Rendición eliminado(a)');
+            v_resp = pxp.f_agrega_clave(v_resp,'id_rendicion_det',v_parametros.id_rendicion_det::varchar);
+
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;
+
+	/*********************************
+    #TRANSACCION: 'CD_RENDET_GET'
+    #DESCRIPCION: RECUPERA EL TIPO DE CAMBIO
+    #AUTOR: YMR
+    #FECHA: 5-12-2019
+    ***********************************/
+
+	elsif (p_transaccion = 'CD_RENDET_GET') then
+
+  	BEGIN
+      
+    	select
+            dcv.id_doc_compra_venta,
+            dcv.revisado,
+            dcv.movil,
+            dcv.tipo,
+            COALESCE(dcv.importe_excento,0)::numeric as importe_excento,
+            dcv.id_plantilla,
+            dcv.fecha,
+            dcv.nro_documento,
+            dcv.nit,
+            COALESCE(dcv.importe_ice,0)::numeric as importe_ice,
+            dcv.nro_autorizacion,
+            COALESCE(dcv.importe_iva,0)::numeric as importe_iva,
+            COALESCE(dcv.importe_descuento,0)::numeric as importe_descuento,
+            COALESCE(dcv.importe_doc,0)::numeric as importe_doc,
+            dcv.sw_contabilizar,
+            COALESCE(dcv.tabla_origen,'ninguno') as tabla_origen,
+            dcv.estado,
+            dcv.id_depto_conta,
+            dcv.id_origen,
+            dcv.obs,
+            dcv.estado_reg,
+            dcv.codigo_control,
+            COALESCE(dcv.importe_it,0)::numeric as importe_it,
+            dcv.razon_social,
+            dcv.id_usuario_ai,
+            dcv.id_usuario_reg,
+            dcv.fecha_reg,
+            dcv.usuario_ai,
+            dcv.id_usuario_mod,
+            dcv.fecha_mod,
+            usu1.cuenta as usr_reg,
+            usu2.cuenta as usr_mod,
+            dep.nombre as desc_depto,
+            pla.desc_plantilla,
+            COALESCE(dcv.importe_descuento_ley,0)::numeric as importe_descuento_ley,
+            COALESCE(dcv.importe_pago_liquido,0)::numeric as importe_pago_liquido,
+            dcv.nro_dui,
+            dcv.id_moneda,
+            mon.codigo as desc_moneda,
+            dcv.id_int_comprobante,
+            COALESCE(ic.nro_cbte,dcv.id_int_comprobante::varchar)::varchar  as desc_comprobante,
+            COALESCE(dcv.importe_pendiente,0)::numeric as importe_pendiente,
+            COALESCE(dcv.importe_anticipo,0)::numeric as importe_anticipo,
+            COALESCE(dcv.importe_retgar,0)::numeric as importe_retgar,
+            COALESCE(dcv.importe_neto,0)::numeric as importe_neto,
+            aux.id_auxiliar,
+            aux.codigo_auxiliar,
+            aux.nombre_auxiliar,
+            dcv.id_tipo_doc_compra_venta,
+            (tdcv.codigo||' - '||tdcv.nombre)::Varchar as desc_tipo_doc_compra_venta
+        into
+            v_registros
+        from conta.tdoc_compra_venta dcv
+          inner join segu.tusuario usu1 on usu1.id_usuario = dcv.id_usuario_reg
+          inner join param.tplantilla pla on pla.id_plantilla = dcv.id_plantilla
+          inner join param.tmoneda mon on mon.id_moneda = dcv.id_moneda
+          inner join conta.ttipo_doc_compra_venta tdcv on tdcv.id_tipo_doc_compra_venta = dcv.id_tipo_doc_compra_venta
+          left join conta.tauxiliar aux on aux.id_auxiliar = dcv.id_auxiliar
+          left join conta.tint_comprobante ic on ic.id_int_comprobante = dcv.id_int_comprobante
+          left join param.tdepto dep on dep.id_depto = dcv.id_depto_conta
+          left join segu.tusuario usu2 on usu2.id_usuario = dcv.id_usuario_mod
+        where  dcv.id_doc_compra_venta = v_parametros.id_doc_compra_venta;
+    
+      --Definition of the response
+        v_resp = pxp.f_agrega_clave(v_resp,'id_doc_compra_venta',v_registros.id_doc_compra_venta::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'revisado',v_registros.revisado::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'movil',v_registros.movil::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'tipo',v_registros.tipo::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_excento',v_registros.importe_excento::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_plantilla',v_registros.id_plantilla::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'nro_documento',v_registros.nro_documento::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'nit',v_registros.nit::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_ice',v_registros.importe_ice::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'nro_autorizacion',v_registros.nro_autorizacion::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_iva',v_registros.importe_iva::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_descuento',v_registros.importe_descuento::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_doc',v_registros.importe_doc::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'tabla_origen',v_registros.tabla_origen::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'estado',v_registros.estado::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_depto_conta',v_registros.id_depto_conta::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_origen',v_registros.id_origen::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'obs',v_registros.obs::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'estado_reg',v_registros.estado_reg::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'codigo_control',v_registros.codigo_control::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_it',v_registros.importe_it::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'razon_social',v_registros.razon_social::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_usuario_ai',v_registros.id_usuario_ai::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_usuario_reg',v_registros.id_usuario_reg::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'usuario_ai',v_registros.usuario_ai::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_usuario_mod',v_registros.id_usuario_mod::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'usr_reg',v_registros.usr_reg::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'usr_mod',v_registros.usr_mod::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_pendiente',v_registros.importe_pendiente::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_anticipo',v_registros.importe_anticipo::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_retgar',v_registros.importe_retgar::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_neto',v_registros.importe_neto::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'desc_depto',v_registros.desc_depto::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'desc_plantilla',v_registros.desc_plantilla::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_descuento_ley',v_registros.importe_descuento_ley::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'importe_pago_liquido',v_registros.importe_pago_liquido::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'nro_dui',v_registros.nro_dui::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_moneda',v_registros.id_moneda::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'desc_moneda',v_registros.desc_moneda::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_auxiliar',v_registros.id_auxiliar::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'codigo_auxiliar',v_registros.codigo_auxiliar::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'nombre_auxiliar',v_registros.nombre_auxiliar::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_doc_compra_venta',v_registros.id_tipo_doc_compra_venta::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'desc_tipo_doc_compra_venta',v_registros.desc_tipo_doc_compra_venta::varchar);
+        v_resp = pxp.f_agrega_clave(v_resp,'fecha',v_registros.fecha::varchar);
+        
+      --Returns the answer
+        return v_resp;
+
+  	END;
 
     else
 

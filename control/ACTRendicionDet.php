@@ -99,6 +99,18 @@ class ACTRendicionDet extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
+	function eliminarRelacionDetalle(){
+        $this->objFunc=$this->create('MODRendicionDet');
+        $this->res=$this->objFunc->eliminarRelacionDetalle($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
+
+    function getRendicionDet(){
+        $this->objFunc=$this->create('MODRendicionDet');
+        $this->res=$this->objFunc->getRendicionDet($this->objParam);
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }								   
+	
 	
 	
 			

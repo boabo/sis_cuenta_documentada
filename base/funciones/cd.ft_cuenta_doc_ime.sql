@@ -798,7 +798,7 @@ BEGIN
              into
                v_id_funcionario,
                v_id_depto
-             FROM wf.f_obtener_estado_segun_log_wf(v_id_estado_wf, v_id_tipo_estado);
+             FROM wf.f_obtener_estado_segun_log_wf(v_parametros.id_estado_wf, v_id_tipo_estado);
 
 
 
