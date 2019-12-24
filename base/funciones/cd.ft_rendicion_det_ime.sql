@@ -48,6 +48,8 @@ DECLARE
 
     v_estacion				varchar;
     v_registros_2			record;					   
+	v_importe_pago_liquido  numeric;
+    v_importe_doc           numeric;		
 
 BEGIN
 
@@ -94,10 +96,13 @@ BEGIN
                 v_nombre_plantilla
                 from param.tplantilla doc
                 where doc.id_plantilla = v_parametros.id_plantilla;
+                v_importe_pago_liquido := v_parametros.importe_pago_liquido;
+                v_importe_doc := v_parametros.importe_doc;
+            
             else
-              	select pl.desc_plantilla
+              	select pl.desc_plantilla, cv.importe_pago_liquido, cv.importe_doc
                 into
-                v_nombre_plantilla
+                v_nombre_plantilla, v_importe_pago_liquido, v_importe_doc
                 from conta.tdoc_compra_venta cv
                 join param.tplantilla pl on cv.id_plantilla = pl.id_plantilla
                 where cv.id_doc_compra_venta = v_parametros.id_doc_compra_venta;
@@ -125,11 +130,11 @@ BEGIN
 
              		--TODO considerar moneda del documento, el tope esta en moneda base ...
                      if v_nombre_plantilla ='Póliza de Importación - DUI' then
-                          IF v_registros.sw_max_doc_rend = 'no' and  v_parametros.importe_pago_liquido > v_tope THEN
+                          IF v_registros.sw_max_doc_rend = 'no' and  v_importe_pago_liquido > v_tope THEN
                               raise exception 'No puede registrar documentos mayores a %, si es necesario pida permiso en tesoreria para proceder',v_tope;
                           END IF;
                      else
-                         IF v_registros.sw_max_doc_rend = 'no' and  v_parametros.importe_doc > v_tope THEN
+                         IF v_registros.sw_max_doc_rend = 'no' and  v_importe_doc > v_tope THEN
                                 raise exception 'No puede registrar documentos mayores a %, si es necesario pida permiso en Tesoreria para proceder',v_tope;
                          END IF;
                      end if;
