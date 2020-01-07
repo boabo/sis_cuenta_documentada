@@ -401,7 +401,7 @@ BEGIN
             	select cd.tipo_rendicion
                 into v_tipo_rendicion
                 from cd.tcuenta_doc cd
-                where cd.id_cuenta_doc = v_id_cuenta_doc;
+                where cd.id_cuenta_doc_fk = v_id_cuenta_doc;
 
     			IF (v_tipo_rendicion != 'rendir_reponer') THEN
                     IF COALESCE(v_importe_documentos,0) >  COALESCE(v_importe_fondo,0)  THEN
