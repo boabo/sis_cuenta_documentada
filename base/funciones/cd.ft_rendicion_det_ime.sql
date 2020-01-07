@@ -47,9 +47,11 @@ DECLARE
     v_id_doc_compra_venta   integer;
 
     v_estacion				varchar;
-    v_registros_2			record;					   
+    v_registros_2			record;
 	v_importe_pago_liquido  numeric;
-    v_importe_doc           numeric;		
+    v_importe_doc           numeric;
+
+    v_tipo_rendicion		varchar;
 
 BEGIN
 
@@ -98,7 +100,7 @@ BEGIN
                 where doc.id_plantilla = v_parametros.id_plantilla;
                 v_importe_pago_liquido := v_parametros.importe_pago_liquido;
                 v_importe_doc := v_parametros.importe_doc;
-            
+
             else
               	select pl.desc_plantilla, cv.importe_pago_liquido, cv.importe_doc
                 into
@@ -249,8 +251,11 @@ BEGIN
              from conta.tdoc_compra_venta
              where id_doc_compra_venta=v_parametros.id_doc_compra_venta;
 
-             IF NOT v_fecha_doc BETWEEN v_registros.fecha_ini AND v_registros.fecha_fin THEN
-             	raise exception 'El documento no corresponde al periodo % %', v_registros.fecha_ini, v_registros.fecha_fin;
+             --(may) 07-01-2020 quitar control de fechas para las facturas en las internacionales
+             IF( pxp.f_get_variable_global('ESTACION_inicio')='BOL')THEN
+                 IF NOT v_fecha_doc BETWEEN v_registros.fecha_ini AND v_registros.fecha_fin THEN
+                    raise exception 'El documento no corresponde al periodo % %', v_registros.fecha_ini, v_registros.fecha_fin;
+                 END IF;
              END IF;
 
             -------------------------------------
@@ -321,7 +326,7 @@ BEGIN
             IF v_tipo_informe = 'lcv' THEN
 	            v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
     		END IF;
-			
+
 			--revisa si el documento no esta marcado como revisado
             select
               dcv.revisado,
@@ -392,9 +397,18 @@ BEGIN
                 inner join conta.tdoc_compra_venta c on c.id_doc_compra_venta=d.id_doc_compra_venta
                 where d.id_cuenta_doc = v_id_cuenta_doc;
 
-                IF COALESCE(v_importe_documentos,0) >  COALESCE(v_importe_fondo,0)  THEN
-                   raise exception 'No es permitido que la suma de las rendiciones sea mayor al monto del fondo recibido, verifique el importe del documento que intenta registrar';
+               --(may)no controlar para el tipo rendir y reponer
+            	select cd.tipo_rendicion
+                into v_tipo_rendicion
+                from cd.tcuenta_doc cd
+                where cd.id_cuenta_doc = v_id_cuenta_doc;
+
+    			IF (v_tipo_rendicion != 'rendir_reponer') THEN
+                    IF COALESCE(v_importe_documentos,0) >  COALESCE(v_importe_fondo,0)  THEN
+                       raise exception 'No es permitido que la suma de las rendiciones sea mayor al monto del fondo recibido, verifique el importe del documento que intenta registrar';
+                    END IF;
                 END IF;
+
 
             END IF;
 
@@ -533,12 +547,12 @@ BEGIN
             IF v_tipo_informe = 'lcv' THEN
 	            v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
     		END IF;
-            
+
             select rdd.id_doc_compra_venta
             into v_id_doc_compra_venta
             from cd.trendicion_det rdd
             where rdd.id_rendicion_det = v_parametros.id_rendicion_det;
-            
+
              --elimina el dadetalle del documento
             delete
             from conta.tdoc_concepto d
@@ -547,11 +561,11 @@ BEGIN
             --elimina la rendicion
 			delete from cd.trendicion_det
             where id_rendicion_det=v_parametros.id_rendicion_det;
-			
-			--elimina relacion con la factura 
+
+			--elimina relacion con la factura
             update conta.tdoc_compra_venta
             set    nro_tramite = NULL
-            where  id_doc_compra_venta = v_id_doc_compra_venta; 
+            where  id_doc_compra_venta = v_id_doc_compra_venta;
 
             --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Detalle de Rendición eliminado(a)');
@@ -572,7 +586,7 @@ BEGIN
 	elsif (p_transaccion = 'CD_RENDET_GET') then
 
   	BEGIN
-      
+
     	select
             dcv.id_doc_compra_venta,
             dcv.revisado,
@@ -636,7 +650,7 @@ BEGIN
           left join param.tdepto dep on dep.id_depto = dcv.id_depto_conta
           left join segu.tusuario usu2 on usu2.id_usuario = dcv.id_usuario_mod
         where  dcv.id_doc_compra_venta = v_parametros.id_doc_compra_venta;
-    
+
       --Definition of the response
         v_resp = pxp.f_agrega_clave(v_resp,'id_doc_compra_venta',v_registros.id_doc_compra_venta::varchar);
         v_resp = pxp.f_agrega_clave(v_resp,'revisado',v_registros.revisado::varchar);
@@ -683,7 +697,7 @@ BEGIN
         v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_doc_compra_venta',v_registros.id_tipo_doc_compra_venta::varchar);
         v_resp = pxp.f_agrega_clave(v_resp,'desc_tipo_doc_compra_venta',v_registros.desc_tipo_doc_compra_venta::varchar);
         v_resp = pxp.f_agrega_clave(v_resp,'fecha',v_registros.fecha::varchar);
-        
+
       --Returns the answer
         return v_resp;
 
@@ -711,6 +725,3 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
-
-ALTER FUNCTION cd.ft_rendicion_det_ime (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
-  OWNER TO postgres;
