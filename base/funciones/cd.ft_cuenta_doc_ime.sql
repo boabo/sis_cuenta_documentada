@@ -976,8 +976,11 @@ BEGIN
                 WHERE cd.id_cuenta_doc_fk = v_parametros.id_cuenta_doc_fk
                 AND cd.id_periodo=v_parametros.id_periodo AND cd.estado_reg!='inactivo';
 
-                IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
-                	raise exception 'Ya se registro una rendicion parcial para el rango de fechas %  %', v_fecha_ini, v_fecha_fin;
+                --(may) 13-01-2020 modificacion para que el aviso no muestre a las internacionales, tiene permitido registrar rendiciones de varios meses en uno
+                IF pxp.f_get_variable_global('ESTACION_inicio') ='BOL' THEN
+                    IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
+                        raise exception 'Ya existe una rendición parcial para el rango de Fechas %  %', v_fecha_ini, v_fecha_fin;
+                    END IF;
                 END IF;
 
                --contamos la cantidad rendciones para la misma solicitud
@@ -1148,8 +1151,11 @@ BEGIN
                 AND cd.id_periodo=v_parametros.id_periodo
                 AND cd.id_cuenta_doc!=v_parametros.id_cuenta_doc;
 
-                IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
-                	raise exception 'Ya se registro una rendicion parcial para el rango de fechas %  %', v_fecha_ini, v_fecha_fin;
+                 --(may) 13-01-2020 modificacion para que el aviso no muestre a las internacionales, tiene permitido registrar rendiciones de varios meses en uno
+                IF pxp.f_get_variable_global('ESTACION_inicio') ='BOL' THEN
+                      IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
+                          raise exception 'Ya existe una rendición parcial para el rango de Fechas %  %', v_fecha_ini, v_fecha_fin;
+                      END IF;
                 END IF;
 
 
@@ -1439,6 +1445,3 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
-
-ALTER FUNCTION cd.ft_cuenta_doc_ime (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
-  OWNER TO postgres;
