@@ -19,7 +19,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 		this.init();
 		this.load({params:{start:0, limit:this.tam_pag}})
 	},
-			
+
 	Atributos:[
 		{
 			//configuracion del componente
@@ -29,7 +29,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 					name: 'id_tipo_cuenta_doc'
 			},
 			type:'Field',
-			form:true 
+			form:true
 		},
 		{
 			config:{
@@ -156,7 +156,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
-        
+
         {
 			config:{
 				name: 'sw_solicitud',
@@ -166,28 +166,76 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 				anchor: '40%',
 				gwidth: 50,
 				maxLength:2,
-				emptyText:'si/no...',       			
+				emptyText:'si/no...',
        			typeAhead: true,
        		    triggerAction: 'all',
        		    lazyRender:true,
        		    mode: 'local',
-       		    valueField: 'inicio',       		    
+       		    valueField: 'inicio',
        		    store:['si','no']
 			},
 			type:'ComboBox',
 			//filters:{pfiltro:'promac.inicio',type:'string'},
 			id_grupo:1,
-			filters:{	
+			filters:{
 	       		         type: 'list',
 	       				 pfiltro:'tcd.sw_solicitud',
-	       				 options: ['si','no'],	
+	       				 options: ['si','no'],
 	       		 	},
 			grid:true,
 			form:true
 		},
-        
-        
-		
+
+    /*Aumentnado condicion Ismael Valdivia (16/01/2020)*/
+		{
+				config:{
+						name: 'estacion',
+						fieldLabel: 'Estacion',
+						anchor: '80%',
+						gwidth: 170,
+						allowBlank: false,
+						typeAhead: true,
+						triggerAction: 'all',
+						lazyRender:true,
+						mode: 'local',
+						valueField: 'inicio',
+						forcSselect:true,
+						enableMultiSelect: true,
+						store:['BOL','BUE','MIA','SAO','MAD']
+				},
+				type:'AwesomeCombo',
+				filters:{pfiltro:'tcd.estacion',type:'string'},
+				id_grupo:1,
+				grid:true,
+				form:true
+		},
+
+		{
+				config:{
+						name: 'tipo_rendicion',
+						fieldLabel: 'Tipo Rendición',
+						anchor: '80%',
+						gwidth: 170,
+						allowBlank: false,
+						typeAhead: true,
+						triggerAction: 'all',
+						lazyRender:true,
+						mode: 'local',
+						valueField: 'inicio',
+						forcSselect:true,
+						enableMultiSelect: true,
+						store:['Rendir','Rendir/Reponer']
+				},
+				type:'AwesomeCombo',
+				id_grupo:1,
+				grid:true,
+				form:true
+		},
+
+
+
+		/**************************************************/
+
 		{
 			config:{
 				name: 'estado_reg',
@@ -210,7 +258,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
 			},
 				type:'DateField',
@@ -271,7 +319,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-							format: 'd/m/Y', 
+							format: 'd/m/Y',
 							renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
 			},
 				type:'DateField',
@@ -296,7 +344,7 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 				form:false
 		}
 	],
-	tam_pag:50,	
+	tam_pag:50,
 	title:'Tipo Cuenta Documentada',
 	ActSave:'../../sis_cuenta_documentada/control/TipoCuentaDoc/insertarTipoCuentaDoc',
 	ActDel:'../../sis_cuenta_documentada/control/TipoCuentaDoc/eliminarTipoCuentaDoc',
@@ -315,8 +363,10 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
+		{name:'estacion', type: 'string'},
+		{name:'tipo_rendicion', type: 'string'},
 		{name:'usr_mod', type: 'string'},'codigo_plantilla_cbte','codigo_wf','sw_solicitud'
-		
+
 	],
 	sortInfo:{
 		field: 'id_tipo_cuenta_doc',
@@ -327,5 +377,3 @@ Phx.vista.TipoCuentaDoc=Ext.extend(Phx.gridInterfaz,{
 	}
 )
 </script>
-		
-		

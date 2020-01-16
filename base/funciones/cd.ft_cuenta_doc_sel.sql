@@ -182,7 +182,6 @@ BEGIN
                 where depu.id_usuario =  p_id_usuario and depu.cargo = 'responsable';
 
 
-
                IF v_historico =  'no' THEN
                   IF p_administrador !=1 THEN
                       v_filtro = ' (ew.id_funcionario='||v_parametros.id_funcionario_usu::varchar||' or   (ew.id_depto  in ('|| COALESCE(array_to_string(va_id_depto,','),'0')||') and cdoc.estado in( ''vbtesoreria'',''vbrendicion''))  ) and (lower(cdoc.estado)!=''contabilizado'') and (lower(cdoc.estado)!=''borrador'') and (lower(cdoc.estado)!=''finalizado'' ) and ';
@@ -231,13 +230,19 @@ BEGIN
                v_strg_obs = 'ew.obs';
            END IF;
 
-
-
-
     	  --Sentencia de la consulta
 		  v_consulta:='select
                             '||v_strg_cd||',
-                            (cdoc.fecha_entrega::date - (now()::date) +'||v_cd_dias_entrega||' + pxp.f_get_weekend_days(cdoc.fecha_entrega::date,now()::date))::integer as dias_para_rendir,
+
+                            /*Aumentando esta parte de codigo*/
+                            case when cdoc.id_tipo_cuenta_doc = 2 then
+                             	0::integer
+                            when cdoc.id_tipo_cuenta_doc = 7 then
+                            	0::integer
+                            else
+                            (cdoc.fecha_entrega::date - (now()::date) +'||v_cd_dias_entrega||' + pxp.f_get_weekend_days(cdoc.fecha_entrega::date,now()::date))::integer
+                            end as dias_para_rendir,
+                            /**********************************/
                             cdoc.id_tipo_cuenta_doc,
                             cdoc.id_proceso_wf,
                             cdoc.id_caja,
@@ -866,7 +871,7 @@ BEGIN
 
            --recupera el gerente financiero ...
           v_gaf = orga.f_obtener_gerente_x_codigo_uo('gerente_financiero', now()::Date);
-        --incremento breydi vasquez (04/11/2019) cambio memorandum de fondo en avance tipo pdf 
+        --incremento breydi vasquez (04/11/2019) cambio memorandum de fondo en avance tipo pdf
 		  v_filtro = ' ';
 		 if pxp.f_existe_parametro(p_tabla, 'action')then
          	 v_filtro = ' lb.id_proceso_wf = '||v_parametros.id_proceso_wf;
@@ -935,7 +940,7 @@ BEGIN
                             WHEN pe.genero::text = ANY (ARRAY[''mujer''::character varying,''MUJER''::character varying, ''Mujer''::character varying]::text[]) THEN ''F''::text
                             ELSE ''''::text
                             END::character varying AS genero_solicitante,
-                            lower(lb.detalle) as texto_memo                            
+                            lower(lb.detalle) as texto_memo
                        	from cd.tcuenta_doc cdoc
                         inner join orga.tuo uo on uo.id_uo = cdoc.id_uo
                         inner join cd.ttipo_cuenta_doc tcd on tcd.id_tipo_cuenta_doc = cdoc.id_tipo_cuenta_doc
