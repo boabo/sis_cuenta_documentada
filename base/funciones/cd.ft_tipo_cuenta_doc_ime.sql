@@ -76,7 +76,8 @@ BEGIN
             v_parametros.codigo_wf,
             v_parametros.codigo_plantilla_cbte,
             v_parametros.sw_solicitud,
-			string_to_array (v_parametros.estacion,',')::varchar[]
+			string_to_array (v_parametros.estacion,',')::varchar[],
+            string_to_array (v_parametros.tipo_rendicion,',')::varchar[]
 
 
 			)RETURNING id_tipo_cuenta_doc into v_id_tipo_cuenta_doc;
@@ -112,7 +113,8 @@ BEGIN
                 codigo_wf = v_parametros.codigo_wf,
                 codigo_plantilla_cbte =  v_parametros.codigo_plantilla_cbte,
                 sw_solicitud = v_parametros.sw_solicitud,
-                estacion = string_to_array (v_parametros.estacion,',')::varchar[]
+                estacion = string_to_array (v_parametros.estacion,',')::varchar[],
+                tipo_rendicion = string_to_array (v_parametros.tipo_rendicion,',')::varchar[]
 			where id_tipo_cuenta_doc=v_parametros.id_tipo_cuenta_doc;
 
 			--Definicion de la respuesta
