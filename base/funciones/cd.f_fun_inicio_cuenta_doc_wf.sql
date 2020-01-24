@@ -269,8 +269,11 @@ BEGIN
                     ELSE
                     --(may) SI ES DE TIPO  rendir/reponer
 
+                    	  -- 16-01-2020 (may) modificacion para que solo salga un comprobante para las rendiciones con reposicion
+                          --sigue la nueva plantilla RENDICIONREPOSICION pero se aumento las transacciones ..
+
                           --genera dos comprobantes uno de rendicion y el segundo comprobante igual que una solicitud son otro codigo_plantilla_cbte
-                             v_id_int_comprobante =   conta.f_gen_comprobante (
+                         /*    v_id_int_comprobante =   conta.f_gen_comprobante (
                                                                v_reg_cuenta_doc.id_cuenta_doc,
                                                                v_reg_cuenta_doc.codigo_plantilla_cbte ,
                                                                p_id_estado_wf,
@@ -279,7 +282,7 @@ BEGIN
                                                                p_usuario_ai,
                                                                v_nombre_conexion);
 
-
+						*/
 
                               v_id_int_comprobante_rep =   conta.f_gen_comprobante (
                                                                v_reg_cuenta_doc.id_cuenta_doc,
