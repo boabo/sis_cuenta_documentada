@@ -894,7 +894,7 @@ BEGIN
                               cdoc.id_cuenta_doc_fk,
                               cdoc.nro_tramite,
                               lower(cdoc.motivo)::varchar as motivo,
-                              case when  tcd.codigo in (''SOLFONAVA'',''SOLFONCHAR'',''SOLFONROTA'')  then lb.fecha else cdoc.fecha end as fecha,
+                              case when  tcd.codigo in (''SOLFONAVA'',''SOLCAJCAN'',''SOLFONROTA'')  then lb.fecha else cdoc.fecha end as fecha,
                               cdoc.id_moneda,
                               cdoc.estado,
                               cdoc.estado_reg,
