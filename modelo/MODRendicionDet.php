@@ -400,7 +400,9 @@ class MODRendicionDet extends MODbase{
 			///////////////////////
             //cuando se relaciona una nueva factura se tregistra
             $new_relation = $this->aParam->getParametro('new_relation_editable');
-            if ($new_relation=='sii') {
+            //modificado 31/01/2020 breydi.vasquez
+            //motivo: duplicaba registro en fondos en avance, en rendicion del detalle
+            /*if ($new_relation=='sii') {
                 $this->procedimiento='cd.ft_rendicion_det_ime';
                 $this->transaccion='CD_REND_INS';
                 $this->tipo_procedimiento='IME';
@@ -418,11 +420,13 @@ class MODRendicionDet extends MODbase{
                     throw new Exception("Error al ejecutar en la bd", 3);
                 }
                 $this->resetParametros();
-            }
+            }*/
             //cuando se relaciona una nueva factura se tregistra
             if ($new_relation=='sii') {
+                
                 $id_doc_compra_venta =  $this->aParam->getParametro('id_doc_compra_venta');
             }else{
+                
                 //Definicion de variables para ejecucion del procedimiento
                 $this->procedimiento='conta.ft_doc_compra_venta_ime';
                 $this->transaccion='CONTA_DCV_MOD';
