@@ -97,7 +97,7 @@ class MODRendicionDet extends MODbase{
 		$this->captura('id_rendicion_det','integer');
 		$this->captura('id_cuenta_doc','integer');
 		$this->captura('id_cuenta_doc_rendicion','integer');
-		
+		$this->captura('tipo_cambio','numeric');
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

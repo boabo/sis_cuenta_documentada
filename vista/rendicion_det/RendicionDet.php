@@ -795,7 +795,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				  {name : 'importe_anticipo',type : 'numeric'}, 
 				  {name : 'importe_retgar',type : 'numeric'}, 
 				  {name : 'importe_neto',type : 'numeric'}, 
-		          'tipo_reg','desc_depto', 'desc_plantilla', 'importe_descuento_ley', 'importe_pago_liquido', 'nro_dui', 'id_moneda', 'desc_moneda', 'id_auxiliar', 'codigo_auxiliar', 'nombre_auxiliar'],
+		          'tipo_reg','desc_depto', 'desc_plantilla', 'importe_descuento_ley', 'importe_pago_liquido', 'nro_dui', 'id_moneda', 'desc_moneda', 'id_auxiliar', 'codigo_auxiliar', 'nombre_auxiliar','tipo_cambio'],
 		
 	sortInfo : {
 			field : 'id_rendicion_det',
