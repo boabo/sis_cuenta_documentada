@@ -834,7 +834,7 @@ header("content-type: text/javascript; charset=UTF-8");
 	},
 		
 		
-	 abrirFormulario : function(tipo, record, readOnly) {
+	 abrirFormulario : function(tipo, record, readOnly, edit_si_no='no') {
 			//abrir formulario de solicitud
 			var me = this;
 			me.objSolForm = Phx.CP.loadWindows('../../../sis_cuenta_documentada/vista/rendicion_det/FormRendicionCD.php', 'Formulario de Rendición', {
@@ -849,7 +849,8 @@ header("content-type: text/javascript; charset=UTF-8");
 					id_depto : me.maestro.id_depto_conta,
 					id_cuenta_doc : me.maestro.id_cuenta_doc,
 					datosOriginales : record,
-					readOnly: readOnly
+					readOnly: readOnly,
+					boton_rendicion: edit_si_no
 				},
 				id_moneda_defecto : me.maestro.id_moneda,
 				bsubmit: !readOnly
@@ -858,7 +859,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		
 	
    showDoc:  function() {
-        this.abrirFormulario('edit', this.sm.getSelected(), true);
+        this.abrirFormulario('edit', this.sm.getSelected(), true,'readOnly');
    },
 	modExcento : function () {
 		var me = this;
@@ -1011,7 +1012,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				var fecha = reg.ROOT.datos.fecha ;
 				var sb = {id: "39659",data:{id_rendicion_det: "39659",id_cuenta_doc: me.maestro.id_cuenta_doc,id_cuenta_doc_rendicion: "6843",id_doc_compra_venta: id_doc_compra_venta,revisado: revisado,movil: movil,tipo: "compra",importe_excento: importe_excento,id_plantilla: id_plantilla,nro_documento: nro_documento,nit: nit,importe_ice: importe_ice,nro_autorizacion: nro_autorizacion,importe_iva: importe_iva,importe_descuento: importe_descuento,importe_doc: importe_doc,sw_contabilizar: sw_contabilizar,tabla_origen: tabla_origen,estado: estado,id_depto_conta: id_depto_conta,id_origen: id_origen,obs: obs,estado_reg: estado_reg,codigo_control: codigo_control,importe_it: importe_it,razon_social: razon_social,id_usuario_ai: id_usuario_ai,id_usuario_reg: id_usuario_reg,usuario_ai: usuario_ai,id_usuario_mod: id_usuario_mod,usr_reg: usr_reg,usr_mod: usr_mod,importe_pendiente: importe_pendiente,importe_anticipo: importe_anticipo,importe_retgar: importe_retgar,importe_neto: importe_neto,tipo_reg: "",desc_depto: desc_depto,desc_plantilla: desc_plantilla,importe_descuento_ley: importe_descuento_ley,importe_pago_liquido: importe_pago_liquido,nro_dui: nro_dui,id_moneda: id_moneda,desc_moneda: desc_moneda,id_auxiliar: id_auxiliar,codigo_auxiliar: codigo_auxiliar,nombre_auxiliar: nombre_auxiliar,isNewRelationEditable:'si',fecha: fecha},json:{id_rendicion_det: "39659",id_cuenta_doc: me.maestro.id_cuenta_doc,id_cuenta_doc_rendicion: "6843",id_doc_compra_venta: id_doc_compra_venta,revisado: revisado,movil: movil,tipo: "compra",importe_excento: importe_excento,id_plantilla: id_plantilla,nro_documento: nro_documento,nit: nit,importe_ice: importe_ice,nro_autorizacion: nro_autorizacion,importe_iva: importe_iva,importe_descuento: importe_descuento,importe_doc: importe_doc,sw_contabilizar: sw_contabilizar,tabla_origen: tabla_origen,estado: estado,id_depto_conta: id_depto_conta,id_origen: id_origen,obs: obs,estado_reg: estado_reg,codigo_control: codigo_control,importe_it: importe_it,razon_social: razon_social,id_usuario_ai: id_usuario_ai,id_usuario_reg: id_usuario_reg,usuario_ai: usuario_ai,id_usuario_mod: id_usuario_mod,usr_reg: usr_reg,usr_mod: usr_mod,importe_pendiente: importe_pendiente,importe_anticipo: importe_anticipo,importe_retgar: importe_retgar,importe_neto: importe_neto,tipo_reg: "",desc_depto: desc_depto,desc_plantilla: desc_plantilla,importe_descuento_ley: importe_descuento_ley,importe_pago_liquido: importe_pago_liquido,nro_dui: nro_dui,id_moneda: id_moneda,desc_moneda: desc_moneda,id_auxiliar: id_auxiliar,codigo_auxiliar: codigo_auxiliar,nombre_auxiliar: nombre_auxiliar,id_tipo_doc_compra_venta: id_tipo_doc_compra_venta,desc_tipo_doc_compra_venta: desc_tipo_doc_compra_venta, fecha: fecha}};
 				
-				this.abrirFormulario('edit', sb, false)
+				this.abrirFormulario('edit', sb, false,'si')
 			},
 			failure: this.conexionFailure,
 			timeout:this.timeout,
