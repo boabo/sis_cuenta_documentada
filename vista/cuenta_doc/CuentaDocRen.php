@@ -4,7 +4,7 @@
 *@file gen-SistemaDist.php
 *@author  (fprudencio)
 *@date 20-09-2011 10:22:05
-*@description Archivo con la interfaz de usuario que permite 
+*@description Archivo con la interfaz de usuario que permite
 *dar el visto a solicitudes de compra
 *
 */
@@ -20,11 +20,11 @@ Phx.vista.CuentaDocRen = {
 	requireclase: 'Phx.vista.CuentaDoc',
 	title: 'Cuenta Documentada',
 	nombreVista: 'CuentaDocRen',
-	
+
 	ActSave: '../../sis_cuenta_documentada/control/CuentaDoc/insertarCuentaDocRendicion',
 	ActDel: '../../sis_cuenta_documentada/control/CuentaDoc/eliminarCuentaDocRendicion',
 	ActList: '../../sis_cuenta_documentada/control/CuentaDoc/listarCuentaDocRendicion',
-	
+
 	gruposBarraTareas : [{
 			name : 'borrador',
 			title : '<H1 align="center"><i class="fa fa-thumbs-o-down"></i> Borradores</h1>',
@@ -41,23 +41,22 @@ Phx.vista.CuentaDocRen = {
 			grupo : 3,
 			height : 0
 		}],
-	
+
 	beditGroups : [0],
 	bactGroups : [0, 1, 2, 3],
 	btestGroups : [0],
 	bexcelGroups : [0, 1, 2, 3],
-		
+
 	constructor: function(config) {
 	   var me = this;
-		
 	   this.Atributos[this.getIndAtributo('id_cuenta_doc_fk')].form = true;
 	   this.Atributos[this.getIndAtributo('id_funcionario')].form = false;
-	   this.Atributos[this.getIndAtributo('id_depto')].form = false; 
+	   this.Atributos[this.getIndAtributo('id_depto')].form = false;
 	   this.Atributos[this.getIndAtributo('id_moneda')].form = false;
 		this.Atributos[this.getIndAtributo('id_tipo_cuenta_doc')].form = false;
-	   this.Atributos[this.getIndAtributo('tipo_pago')].form = false; 
-	   this.Atributos[this.getIndAtributo('id_funcionario_cuenta_bancaria')].form = false; 
-	   this.Atributos[this.getIndAtributo('nombre_cheque')].form = false; 
+	   this.Atributos[this.getIndAtributo('tipo_pago')].form = false;
+	   this.Atributos[this.getIndAtributo('id_funcionario_cuenta_bancaria')].form = false;
+	   this.Atributos[this.getIndAtributo('nombre_cheque')].form = false;
 	   this.Atributos[this.getIndAtributo('importe')].config.qtip = 'Monto a rendir entre facturas y depositos';
 	   this.Atributos[this.getIndAtributo('nro_correspondencia')].form = true;
 	   this.Atributos[this.getIndAtributo('nro_correspondencia')].grid = true;
@@ -67,15 +66,15 @@ Phx.vista.CuentaDocRen = {
 		this.Atributos[this.getIndAtributo('id_periodo')].form = true;
 		this.Atributos[this.getIndAtributo('id_periodo')].grid = true;
 
-	   this.Atributos[this.getIndAtributo('importe')].config.renderer = function(value, p, record) {  
+	   this.Atributos[this.getIndAtributo('importe')].config.renderer = function(value, p, record) {
 				    var  saldo =  me.roundTwo(record.data.importe_documentos) + me.roundTwo(record.data.importe_depositos) -  me.roundTwo(record.data.importe_retenciones);
 				    saldo = me.roundTwo(saldo);
-				    
+
 				    if (record.data.estado != 'rendido') {
-						
+
 						var saldo_final = record.data.importe_solicitado - record.data.importe_total_rendido - saldo;
 				        saldo_final = me.roundTwo(saldo_final);
-						
+
 						return String.format("<b><font color = 'red' >Solicitado: {0}</font></b><br>"+
 											 "<b><font color = 'green' >En Documentos: {1}</font></b><br>"+
 											 "<b><font color = 'green' >En Depositos: {2}</font></b><br>"+
@@ -85,7 +84,7 @@ Phx.vista.CuentaDocRen = {
 											 "<b><font color = 'red' >Saldo: {6}</font></b>",  record.data.importe_solicitado, record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo, record.data.importe_total_rendido, saldo_final );
 					}
 					else{
-						
+
 						var saldo_final = record.data.importe_solicitado - record.data.importe_total_rendido - record.data.importe_retenciones;
 				        saldo_final = me.roundTwo(saldo_final);
 						return String.format("<b><font color = 'red' >Solicitado: {0}</font></b><br>"+
@@ -95,19 +94,19 @@ Phx.vista.CuentaDocRen = {
 										 "<b><font color = 'blue' >Monto a rendido: {4}</font></b><br>"+
 										 "<b><font color = 'blue' >Total Rendido: {5}</font></b><br>"+
 										 "<b><font color = 'red' >Saldo: {6}</font></b>",  record.data.importe_solicitado, record.data.importe_documentos, record.data.importe_depositos, record.data.importe_retenciones, saldo, record.data.importe_total_rendido, saldo_final );
-				
-					
-					}	
+
+
+					}
 
 			};
-	   
-	   
-	   
-	   
-	   
+
+
+
+
+
 	   Phx.vista.CuentaDocRen.superclass.constructor.call(this,config);
        this.init();
-       
+
        this.addButton('onBtnRen', {
 				grupo : [0,1,2,3],
 				text : 'Reporte Rendición.',
@@ -118,21 +117,24 @@ Phx.vista.CuentaDocRen = {
 		});
 
 
-       this.store.baseParams = { estado : 'borrador',id_cuenta_doc: this.id_cuenta_doc, tipo_interfaz: this.nombreVista}; 
+       this.store.baseParams = { estado : 'borrador',id_cuenta_doc: this.id_cuenta_doc, tipo_interfaz: this.nombreVista};
        this.load({params:{start:0, limit:this.tam_pag}});
-	   this.iniciarEventos();
+       /*Aumentando para filtrar combo*/
+       this.Cmp.tipo_rendicion.store.baseParams.id_tipo_cuenta_doc = this.id_tipo_cuenta_doc;
+       /******************************/
+	     this.iniciarEventos();
        this.finCons = true;
-		
-   }, 
-  
+
+   },
+
    getParametrosFiltro : function() {
 		this.store.baseParams.estado = this.swEstado;
 		this.store.baseParams.tipo_interfaz = this.nombreVista;
    },
-   
+
    actualizarSegunTab : function(name, indice) {
 			this.swEstado = name;
-			
+
 			this.getParametrosFiltro();
 			if (this.finCons) {
 				this.load({
@@ -144,13 +146,13 @@ Phx.vista.CuentaDocRen = {
 			}
 
 		},
-     
-   
+
+
   preparaMenu:function(n){
       var data = this.getSelectedData();
       var tb =this.tbar;
-      Phx.vista.CuentaDocRen.superclass.preparaMenu.call(this,n); 
-      this.getBoton('chkpresupuesto').enable();  
+      Phx.vista.CuentaDocRen.superclass.preparaMenu.call(this,n);
+      this.getBoton('chkpresupuesto').enable();
       if(data.estado == 'borrador' ){
           this.getBoton('ant_estado').disable();
           this.getBoton('sig_estado').enable();
@@ -168,7 +170,7 @@ Phx.vista.CuentaDocRen = {
 	  }else{
 		  this.enableTabFacturasDepositos();
 	  }
-            
+
       return tb;
    },
 
@@ -180,7 +182,6 @@ Phx.vista.CuentaDocRen = {
             this.Cmp.id_periodo.store.baseParams.id_gestion = this.getGestion(this.fecha);
             this.Cmp.id_periodo.modificado = true;
         }, this);
-
 
 	},
 
@@ -234,23 +235,36 @@ Phx.vista.CuentaDocRen = {
 			this.TabPanelSouth.get(1).enable();
 		}
 	},
-   
-   
+
+
    loadValoresIniciales: function() {
-    	
-    	Phx.vista.CuentaDocRen.superclass.loadValoresIniciales.call(this);  
-    	this.Cmp.id_cuenta_doc_fk.setValue(this.id_cuenta_doc);      
+
+    	Phx.vista.CuentaDocRen.superclass.loadValoresIniciales.call(this);
+    	this.Cmp.id_cuenta_doc_fk.setValue(this.id_cuenta_doc);
    },
-   
-   onButtonNew : function() {   
+
+   onButtonNew : function() {
 			Phx.vista.CuentaDocRen.superclass.onButtonNew.call(this);
 			this.Cmp.motivo.setValue(this.motivo);
+
+
+
+
+      this.Cmp.tipo_rendicion.store.load({params:{start:0,limit:50},
+         callback : function (r) {
+           //this.Cmp.tipo_rendicion.setValue('Rendir');
+           this.Cmp.tipo_rendicion.setValue(r[0].data.tipo_rendicion);
+           this.Cmp.tipo_rendicion.fireEvent('select',this.Cmp.tipo_rendicion, this.Cmp.tipo_rendicion.store.getById(r[0].data.tipo_rendicion));
+          }, scope : this
+      });
+
+
    },
-   
+
    tabsouth:[
 	    {
 	         url:'../../../sis_cuenta_documentada/vista/rendicion_det/RendicionDetReg.php',
-	         title:'Facturas', 
+	         title:'Facturas',
 	         height:'50%',
 	         cls:'RendicionDetReg'
         },

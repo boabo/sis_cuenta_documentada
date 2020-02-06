@@ -41,6 +41,7 @@ Phx.vista.RendicionDetReg = {
 	      }
 	      
 	      this.getBoton('btnShowDoc').enable();
+		  this.getBoton('btnDelRel').enable();									  
 	            
 	      return tb;
  },
@@ -59,6 +60,7 @@ Phx.vista.RendicionDetReg = {
             
             
             this.getBoton('btnShowDoc').disable();
+			this.getBoton('btnDelRel').disable();									 
         }
         return tb
    },

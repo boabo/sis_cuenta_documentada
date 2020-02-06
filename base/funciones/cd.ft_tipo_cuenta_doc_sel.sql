@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION cd.ft_tipo_cuenta_doc_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -14,13 +12,13 @@ $body$
  DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'cd.ttipo_cuenta_doc'
  AUTOR: 		 (admin)
  FECHA:	        04-05-2016 20:13:26
- COMENTARIOS:	
+ COMENTARIOS:
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
 
- DESCRIPCION:	
- AUTOR:			
- FECHA:		
+ DESCRIPCION:
+ AUTOR:
+ FECHA:
 ***************************************************************************/
 
 DECLARE
@@ -29,21 +27,23 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
-			    
+
+    v_cadena			varchar;
+
 BEGIN
 
 	v_nombre_funcion = 'cd.ft_tipo_cuenta_doc_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
-	/*********************************    
+	/*********************************
  	#TRANSACCION:  'CD_TCD_SEL'
  	#DESCRIPCION:	Consulta de datos
- 	#AUTOR:		admin	
+ 	#AUTOR:		admin
  	#FECHA:		04-05-2016 20:13:26
 	***********************************/
 
 	if(p_transaccion='CD_TCD_SEL')then
-     				
+
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
@@ -62,25 +62,27 @@ BEGIN
                             usu2.cuenta as usr_mod,
                             tcd.codigo_plantilla_cbte,
                             tcd.codigo_wf,
-                            tcd.sw_solicitud	
+                            tcd.sw_solicitud,
+                            array_to_string(tcd.estacion,'','')::varchar as estacion,
+                            array_to_string(tcd.tipo_rendicion,'','')::varchar as tipo_rendicion
 						from cd.ttipo_cuenta_doc tcd
 						inner join segu.tusuario usu1 on usu1.id_usuario = tcd.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tcd.id_usuario_mod
-				        where  ';
-			
+				        where ';
+
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
 
 			--Devuelve la respuesta
 			return v_consulta;
-						
+
 		end;
 
-	/*********************************    
+	/*********************************
  	#TRANSACCION:  'CD_TCD_CONT'
  	#DESCRIPCION:	Conteo de registros
- 	#AUTOR:		admin	
+ 	#AUTOR:		admin
  	#FECHA:		04-05-2016 20:13:26
 	***********************************/
 
@@ -93,23 +95,90 @@ BEGIN
 					    inner join segu.tusuario usu1 on usu1.id_usuario = tcd.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tcd.id_usuario_mod
 					    where ';
-			
-			--Definicion de la respuesta		    
+
+			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 
 			--Devuelve la respuesta
 			return v_consulta;
 
 		end;
-					
+
+    /*********************************
+ 	#TRANSACCION:  'CD_TREN_SEL'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:		admin
+ 	#FECHA:		04-05-2016 20:13:26
+	***********************************/
+
+	elsif(p_transaccion='CD_TREN_SEL')then
+
+    	begin
+
+        	/*Dato para filtrar */
+        	select ''''||Replace(array_to_string(doc.tipo_rendicion,',')::varchar,',',''',''')||'''' into v_cadena
+            from cd.ttipo_cuenta_doc doc
+            where doc.id_tipo_cuenta_doc = v_parametros.id_tipo_cuenta_doc;
+
+    		--Sentencia de la consulta
+			v_consulta:='select
+                                ren.id_tipo_rendicion,
+                                ren.tipo_rendicion,
+                                ren.descripcion,
+                                ren.filtrar
+                          from cd.ttipo_rendicion ren
+                          where ren.descripcion in ('||v_cadena||') and';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+
+	/*********************************
+ 	#TRANSACCION:  'CD_TREN_CONT'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:		admin
+ 	#FECHA:		04-05-2016 20:13:26
+	***********************************/
+
+	elsif(p_transaccion='CD_TREN_CONT')then
+
+		begin
+        	/*Dato para filtrar */
+        	select ''''||Replace(array_to_string(doc.tipo_rendicion,',')::varchar,',',''',''')||'''' into v_cadena
+            from cd.ttipo_cuenta_doc doc
+            where doc.id_tipo_cuenta_doc = v_parametros.id_tipo_cuenta_doc;
+
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select
+                                count (ren.id_tipo_rendicion)
+                          from cd.ttipo_rendicion ren
+                          where ren.descripcion in ('||v_cadena||') and';
+
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+
+
+
+
+
 	else
-					     
+
 		raise exception 'Transaccion inexistente';
-					         
+
 	end if;
-					
+
 EXCEPTION
-					
+
 	WHEN OTHERS THEN
 			v_resp='';
 			v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
@@ -123,3 +192,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION cd.ft_tipo_cuenta_doc_sel (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
+  OWNER TO postgres;

@@ -15,6 +15,7 @@ header("content-type: text/javascript; charset=UTF-8");
         constructor: function (config) {
             this.maestro = config.maestro;
             //llama al constructor de la clase padre
+            console.log("llega aqui rendicion",this);
             Phx.vista.CuentaDoc.superclass.constructor.call(this, config);
 
             this.addButton('ini_estado', {
@@ -138,37 +139,87 @@ header("content-type: text/javascript; charset=UTF-8");
                 grid: true,
                 form: false
             },
-
+            /*Comentando para ir agregando rendiciones ISMAEL VALDIVIA (16/01/2020)*/
             {
                 config:{
                     name:'tipo_rendicion',
                     fieldLabel:'Tipo de Rendición',
-                    typeAhead: true,
                     allowBlank:false,
+                    emptyText:'Tipo...',
+                    typeAhead: true,
                     triggerAction: 'all',
-                    emptyText:'Tipo de Rendición',
-                    selectOnFocus:true,
-                    mode:'local',
-                    store:new Ext.data.ArrayStore({
-                        fields: ['ID', 'valor'],
-                        data :	[
-                            ['rendir','Rendir'],
-                            ['rendir_reponer','Rendir/Reponer']
-                        ]
-                    }),
-                    valueField:'ID',
-                    displayField:'valor',
-                    anchor: '80%',
-                    gwidth:120
+                    lazyRender:true,
+                    mode: 'local',
+                    valueField: 'estilo',
+                    gwidth: 120,
 
+                    store: new Ext.data.JsonStore({
+                        url: '../../sis_cuenta_documentada/control/TipoCuentaDoc/listarTipoRendicion',
+                        id: 'tipo_rendicion',
+                        root: 'datos',
+                        sortInfo:{
+                            field: 'descripcion',
+                            direction: 'ASC'
+                        },
+                        totalProperty: 'total',
+                        fields: ['tipo_rendicion','descripcion','filtrar'],
+                        // turn on remote sorting
+                        remoteSort: true,
+                        baseParams:{par_filtro:'descripcion'}
+                    }),
+                    valueField: 'tipo_rendicion',
+                    displayField: 'descripcion',
+                    hiddenName: 'descripcion',
+                    forceSelection:true,
+                    typeAhead: false,
+                    triggerAction: 'all',
+                    lazyRender:true,
+                    mode:'remote',
+                    pageSize:10,
+                    queryDelay:1000,
+                    listWidth:300,
+                    resizable:true,
+                    anchor:'80%',
+                    renderer : function(value, p, record) {
+                        return String.format('{0}', record.data['descripcion']);
+                    }
                 },
                 type:'ComboBox',
-                filters: {pfiltro: 'cdoc.tipo_rendicion', type: 'string'},
                 id_grupo:1,
-                grid:true,
+                //filters:{pfiltro:'ren.tipo',type:'string'},
+                grid:false,
                 form:true
             },
-
+            // {
+            //     config:{
+            //         name:'tipo_rendicion',
+            //         fieldLabel:'Tipo de Rendición',
+            //         typeAhead: true,
+            //         allowBlank:false,
+            //         triggerAction: 'all',
+            //         emptyText:'Tipo de Rendición',
+            //         selectOnFocus:true,
+            //         mode:'local',
+            //         store:new Ext.data.ArrayStore({
+            //             fields: ['ID', 'valor'],
+            //             data :	[
+            //                 ['rendir','Rendir'],
+            //                 ['rendir_reponer','Rendir/Reponer']
+            //             ]
+            //         }),
+            //         valueField:'ID',
+            //         displayField:'valor',
+            //         anchor: '80%',
+            //         gwidth:120
+            //
+            //     },
+            //     type:'ComboBox',
+            //     filters: {pfiltro: 'cdoc.tipo_rendicion', type: 'string'},
+            //     id_grupo:1,
+            //     grid:true,
+            //     form:true
+            // },
+            /*********************************************************************/
             {
                 config: {
                     name: 'motivo',
@@ -362,7 +413,55 @@ header("content-type: text/javascript; charset=UTF-8");
                 grid: true,
                 form: true
             },
-            {
+
+            /*{
+        				config:{
+        					name: 'id_tipo_cuenta_doc',
+        					fieldLabel: 'Tipo Fondo Avance',
+        					allowBlank: false,
+        					emptyText:'Seleccione el tipo fondo avance...',
+        					store:new Ext.data.JsonStore(
+        					{
+        						url: '../../sis_cuenta_documentada/control/CuentaDoc/listarFondoAvance',
+        						id: 'id_tipo_cuenta_doc',
+        						root: 'datos',
+        						sortInfo:{
+        							field: 'id_tipo_fondo_avance',
+        							direction: 'ASC'
+        						},
+        						totalProperty: 'total',
+        						fields: ['id_tipo_fondo_avance','valor'],
+        						// turn on remote sorting
+        						remoteSort: true,
+        						baseParams:{par_filtro:'av.valor'}
+        					}),
+        					valueField: 'id_tipo_fondo_avance',
+        					displayField: 'valor',
+        					gdisplayField:'valor',
+        					hiddenName: 'valor',
+        					triggerAction: 'all',
+        					lazyRender:true,
+        					mode:'remote',
+        					pageSize:50,
+                  anchor: '80%',
+        					queryDelay:500,
+        					gwidth:150,
+        					minChars:2,
+        					renderer:function (value, p, record){return String.format('{0}', record.data['valor']);}
+        				},
+        				type:'ComboBox',
+        				filters:{pfiltro:'av.valor',type:'string'},
+        				id_grupo:0,
+        				grid:true,
+        				form:true
+        			},*/
+            /*********************************/
+
+
+
+
+            /*Comentando para que recupere el dato directamente desde una tabla para mostrar dependiendo al lugar (Ismael Valdivia 15/01/2020)*/
+            /*{
                 config: {
                     name: 'id_tipo_cuenta_doc',
                     fieldLabel: 'Tipo Fondo Avance',
@@ -379,7 +478,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     displayField: 'valor',
                     store: new Ext.data.ArrayStore({
                         fields: ['variable', 'valor'],
-                        data: [['1', 'Solicitud Comun']]
+                        data: [['1', 'Solicitud Comun'],['7', 'Solicitud Caja Cambio']]
                     })
                 },
                 type: 'ComboBox',
@@ -390,8 +489,10 @@ header("content-type: text/javascript; charset=UTF-8");
                 },
                 grid: true,
                 form: true
-            },
-            /*{
+            },*/
+            /************************************************************************************************************************/
+              /*Aumentando esta parte del codigo (ISAMEL VALDIVIA 15/01/2020)*/
+            {
                 config:{
                     name:'id_tipo_cuenta_doc',
                     fieldLabel:'Tipo Fondo Avance',
@@ -409,14 +510,14 @@ header("content-type: text/javascript; charset=UTF-8");
                         id: 'id_tipo_cuenta_doc',
                         root: 'datos',
                         sortInfo:{
-                            field: 'nombre',
+                            field: 'id_tipo_cuenta_doc',
                             direction: 'ASC'
                         },
                         totalProperty: 'total',
                         fields: ['id_tipo_cuenta_doc','nombre','codigo','descripcion'],
                         // turn on remote sorting
                         remoteSort: true,
-                        baseParams:{par_filtro:'nombre', sw_solicitud: 'si'
+                        baseParams:{par_filtro:'nombre', sw_solicitud: 'si', estacion: 'si'
                         }
                     }),
                     valueField: 'id_tipo_cuenta_doc',
@@ -441,7 +542,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 //filters:{pfiltro:'ren.tipo',type:'string'},
                 grid:false,
                 form:true
-            },*/
+            },
             {
                 config: {
                     name: 'id_moneda',
@@ -816,15 +917,15 @@ header("content-type: text/javascript; charset=UTF-8");
 
         onAntEstado: function (wizard, resp) {
             Phx.CP.loadingShow();
-            var operacion = 'cambiar';
-            operacion = resp.estado_destino == 'inicio' ? 'inicio' : operacion;
+            /*var operacion = 'cambiar';
+            operacion = resp.estado_destino == 'inicio' ? 'inicio' : operacion;*/
             Ext.Ajax.request({
                 url: '../../sis_cuenta_documentada/control/CuentaDoc/anteriorEstado',
                 params: {
                     id_proceso_wf: resp.id_proceso_wf,
                     id_estado_wf: resp.id_estado_wf,
                     obs: resp.obs,
-                    operacion: operacion,
+                    estado_destino: resp.estado_destino,
                     id_cuenta_doc: resp.data.id_cuenta_doc
                 },
                 argument: {wizard: wizard},

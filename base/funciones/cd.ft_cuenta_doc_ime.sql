@@ -798,7 +798,7 @@ BEGIN
              into
                v_id_funcionario,
                v_id_depto
-             FROM wf.f_obtener_estado_segun_log_wf(v_id_estado_wf, v_id_tipo_estado);
+             FROM wf.f_obtener_estado_segun_log_wf(v_parametros.id_estado_wf, v_id_tipo_estado);
 
 
 
@@ -976,8 +976,11 @@ BEGIN
                 WHERE cd.id_cuenta_doc_fk = v_parametros.id_cuenta_doc_fk
                 AND cd.id_periodo=v_parametros.id_periodo AND cd.estado_reg!='inactivo';
 
-                IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
-                	raise exception 'Ya se registro una rendicion parcial para el rango de fechas %  %', v_fecha_ini, v_fecha_fin;
+                --(may) 13-01-2020 modificacion para que el aviso no muestre a las internacionales, tiene permitido registrar rendiciones de varios meses en uno
+                IF pxp.f_get_variable_global('ESTACION_inicio') ='BOL' THEN
+                    IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
+                        raise exception 'Ya existe una rendición parcial para el rango de Fechas %  %', v_fecha_ini, v_fecha_fin;
+                    END IF;
                 END IF;
 
                --contamos la cantidad rendciones para la misma solicitud
@@ -1148,8 +1151,11 @@ BEGIN
                 AND cd.id_periodo=v_parametros.id_periodo
                 AND cd.id_cuenta_doc!=v_parametros.id_cuenta_doc;
 
-                IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
-                	raise exception 'Ya se registro una rendicion parcial para el rango de fechas %  %', v_fecha_ini, v_fecha_fin;
+                 --(may) 13-01-2020 modificacion para que el aviso no muestre a las internacionales, tiene permitido registrar rendiciones de varios meses en uno
+                IF pxp.f_get_variable_global('ESTACION_inicio') ='BOL' THEN
+                      IF v_fecha_ini IS NOT NULL and v_fecha_fin IS NOT NULL THEN
+                          raise exception 'Ya existe una rendición parcial para el rango de Fechas %  %', v_fecha_ini, v_fecha_fin;
+                      END IF;
                 END IF;
 
 

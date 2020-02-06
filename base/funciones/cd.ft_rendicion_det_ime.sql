@@ -384,24 +384,29 @@ BEGIN
 
             IF (v_verifica_rendiciones_menor_fondo='si') THEN
 
-                select ren.id_cuenta_doc into v_id_cuenta_doc
+                select ren.id_cuenta_doc
+                into v_id_cuenta_doc
                 from cd.trendicion_det ren
                 where ren.id_doc_compra_venta = v_parametros.id_doc_compra_venta;
 
-                select importe into v_importe_fondo
+                select importe
+                into v_importe_fondo
                 from cd.tcuenta_doc
                 where id_cuenta_doc = v_id_cuenta_doc;
 
-                select sum(c.importe_pago_liquido) into v_importe_documentos
+				--(may)no calcula para el tipo rendir y reponer
+                select sum(c.importe_pago_liquido)
+                into v_importe_documentos
                 from cd.trendicion_det d
                 inner join conta.tdoc_compra_venta c on c.id_doc_compra_venta=d.id_doc_compra_venta
-                where d.id_cuenta_doc = v_id_cuenta_doc;
+                join cd.tcuenta_doc cdo on cdo.id_cuenta_doc = d.id_cuenta_doc
+                where d.id_cuenta_doc = v_id_cuenta_doc
+                AND cdo.tipo_rendicion in ('rendir');
 
-               --(may)no controlar para el tipo rendir y reponer
             	select cd.tipo_rendicion
                 into v_tipo_rendicion
                 from cd.tcuenta_doc cd
-                where cd.id_cuenta_doc = v_id_cuenta_doc;
+                where cd.id_cuenta_doc_fk = v_id_cuenta_doc;
 
     			IF (v_tipo_rendicion != 'rendir_reponer') THEN
                     IF COALESCE(v_importe_documentos,0) >  COALESCE(v_importe_fondo,0)  THEN

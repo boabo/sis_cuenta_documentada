@@ -66,7 +66,7 @@ ALTER TABLE cd.tcuenta_doc
 
 ALTER TABLE cd.tcuenta_doc
   ALTER COLUMN tipo_pago SET NOT NULL;
-  
+
 
 COMMENT ON COLUMN cd.tcuenta_doc.id_depto
 IS 'depato de obligacion de pago';
@@ -80,7 +80,7 @@ IS 'depto de libro de bancos de donde se ara la tranaferencia o cheque';
 
 
 COMMENT ON COLUMN cd.tcuenta_doc.tipo_pago
-IS 'cheque, transferencia, caja, define de que forma de ara el pago';  
+IS 'cheque, transferencia, caja, define de que forma de ara el pago';
 
 
 ALTER TABLE cd.tcuenta_doc
@@ -215,7 +215,7 @@ IS 'bloqueado o autorizado';
 
 ALTER TABLE cd.tcuenta_doc
   ADD COLUMN nro_correspondencia VARCHAR(300);
-  
+
   --------------- SQL ---------------
 
 ALTER TABLE cd.tcuenta_doc
@@ -293,7 +293,7 @@ IS 'importe rendido, solo en solicitudesse llena cuando las rendiciones son fina
 
 ALTER TABLE cd.tcuenta_doc
   ADD COLUMN id_funcionario_aprobador INTEGER;
-   
+
 
 ALTER TABLE cd.tcuenta_doc
   ADD COLUMN id_periodo INTEGER;
@@ -485,3 +485,23 @@ COMMENT ON COLUMN cd.tcuenta_doc.id_int_comprobante_reposicion
 IS 'id del comprobante cuando este tiene la opcion de tipo_rendicion rendir_reponer';
 /***********************************F-SCP-CD-MAY-0-18/09/2019****************************************/
 
+/***********************************I-SCP-CD-IRVA-0-16/01/2020****************************************/
+ALTER TABLE cd.ttipo_cuenta_doc
+  ADD COLUMN estacion VARCHAR [];
+
+ ALTER TABLE cd.ttipo_cuenta_doc
+  ADD COLUMN tipo_rendicion VARCHAR [];
+
+
+  CREATE TABLE cd.ttipo_rendicion (
+  id_tipo_rendicion SERIAL NOT NULL,
+  tipo_rendicion VARCHAR(100),
+  descripcion VARCHAR(100),
+  filtrar VARCHAR(2),
+  PRIMARY KEY(id_tipo_rendicion)
+) INHERITS (pxp.tbase)
+WITH (oids = false);
+
+ALTER TABLE cd.ttipo_rendicion
+  OWNER TO postgres;
+/***********************************F-SCP-CD-IRVA-0-16/01/2020****************************************/

@@ -99,7 +99,8 @@ BEGIN
                             (tdcv.codigo||'' - ''||tdcv.nombre)::Varchar as desc_tipo_doc_compra_venta,
                             rd.id_rendicion_det,
                             rd.id_cuenta_doc,
-                            rd.id_cuenta_doc_rendicion
+                            rd.id_cuenta_doc_rendicion,
+                            dcv.tipo_cambio
                         
 						from conta.tdoc_compra_venta dcv
                         inner join cd.trendicion_det rd on rd.id_doc_compra_venta = dcv.id_doc_compra_venta
