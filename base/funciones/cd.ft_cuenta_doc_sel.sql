@@ -235,7 +235,7 @@ BEGIN
                             '||v_strg_cd||',
 
                             /*Aumentando esta parte de codigo*/
-                            case when cdoc.id_tipo_cuenta_doc = 2 then
+                            case when cdoc.id_tipo_cuenta_doc = 8 then
                              	0::integer
                             when cdoc.id_tipo_cuenta_doc = 7 then
                             	0::integer
@@ -894,7 +894,7 @@ BEGIN
                               cdoc.id_cuenta_doc_fk,
                               cdoc.nro_tramite,
                               lower(cdoc.motivo)::varchar as motivo,
-                              case when  tcd.codigo in (''SOLFONAVA'',''SOLCAJCAN'',''SOLFONROTA'')  then lb.fecha else cdoc.fecha end as fecha,
+                              case when tcd.codigo in (''SOLFONAVA'',''SOLFONCHAR'') then lb.fecha else cdoc.fecha end as fecha,
                               cdoc.id_moneda,
                               cdoc.estado,
                               cdoc.estado_reg,
@@ -902,7 +902,7 @@ BEGIN
                               cdoc.id_usuario_ai,
                               cdoc.usuario_ai,
                               cdoc.fecha_reg,
-                             cdoc.id_usuario_reg,
+                              cdoc.id_usuario_reg,
                               cdoc.fecha_mod,
                               cdoc.id_usuario_mod,
                               usu1.cuenta as usr_reg,
@@ -1261,6 +1261,3 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
-
-ALTER FUNCTION cd.ft_cuenta_doc_sel (p_administrador integer, p_id_usuario integer, p_tabla varchar, p_transaccion varchar)
-  OWNER TO postgres;
