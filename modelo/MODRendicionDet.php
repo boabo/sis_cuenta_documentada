@@ -490,9 +490,11 @@ class MODRendicionDet extends MODbase{
                 $respuesta = $resp_procedimiento['datos'];
 
                 $id_doc_compra_venta = $respuesta['id_doc_compra_venta'];
+            }else{
+                $id_doc_compra_venta =  $this->aParam->getParametro('id_doc_compra_venta');
             }
 
-			
+
 			
 			//////////////////////////////////////////////
 			//valida importes editados en factura para la rendicion
