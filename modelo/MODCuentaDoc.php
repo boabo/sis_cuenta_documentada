@@ -907,6 +907,30 @@ class MODCuentaDoc extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+    function ReporteConstanciaCartaSuperior()
+    {
+
+        $this->procedimiento = 'cd.ft_cuenta_doc_sel';
+        $this->transaccion = 'CD_REPCONSTA_REP';
+        $this->tipo_procedimiento = 'SEL';
+        $this->setCount(false);
+
+        $this->setParametro('id_proceso_wf', 'id_proceso_wf', 'int4');
+
+        $this->captura('mensaje_correo', 'varchar');
+        $this->captura('fecha_reg', 'timestamp');
+        $this->captura('correos', 'varchar');
+        $this->captura('titulo_correo', 'varchar');
+
+
+        //Ejecuta la instruccion
+        $this->armarConsulta();//echo ($this->consulta); exit;
+        $this->ejecutarConsulta();
+        //var_dump($this->respuesta); exit;
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 		
 }  	
 ?>

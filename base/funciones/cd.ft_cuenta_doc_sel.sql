@@ -1242,6 +1242,39 @@ BEGIN
 
 		end;
 
+    /*********************************
+ 	#TRANSACCION:  'CD_REPCONSTA_REP'
+ 	#DESCRIPCION:	reporte constancia de correo a gerente
+ 	#AUTOR:		maylee.perez
+ 	#FECHA:		12-07-2020 20:33:35
+	***********************************/
+
+	elsif(p_transaccion='CD_REPCONSTA_REP')then
+
+		begin
+		           v_consulta:='select
+                                      MAX(ala.descripcion)::varchar as mensaje_correo,
+                                      MAX(ala.fecha_reg)::timestamp,
+                                      MAX(array_to_string(pcorreo.correos, '',''))::varchar as correos,
+                                      MAX(ala.titulo_correo)::varchar
+
+                                from  cd.tcuenta_doc cdoc
+                                left join segu.tusuario usu1 on usu1.id_usuario = cdoc.id_usuario_reg
+                                left join segu.vusuario u on u.id_usuario = cdoc.id_usuario_mod
+                                inner join param.talarma ala on ala.id_proceso_wf = cdoc.id_proceso_wf
+                                inner join wf.tplantilla_correo pcorreo on pcorreo.id_plantilla_correo = ala.id_plantilla_correo
+
+                                where cdoc.id_proceso_wf = '||v_parametros.id_proceso_wf;
+			--Devuelve la respuesta
+
+            raise notice 'consulta %',v_consulta;
+
+
+			return v_consulta;
+
+		end;
+
+
     else
 		raise exception 'Transaccion inexistente';
 	end if;

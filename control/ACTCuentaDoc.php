@@ -13,6 +13,9 @@ require_once(dirname(__FILE__).'/../reportes/RRendicionConXls.php');
 require_once(dirname(__FILE__).'/../reportes/RMemoAsignacion.php');
 require_once(dirname(__FILE__).'/../reportes/RMemoAsignacionPdf.php');
 
+require_once(dirname(__FILE__).'/../reportes/RConstanciaCartaSuperior.php');
+
+
 class ACTCuentaDoc extends ACTbase{    
 			
 	function listarCuentaDoc(){
@@ -589,6 +592,31 @@ class ACTCuentaDoc extends ACTbase{
 		$this->mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado','Se generó con éxito el reporte: '.$nombreArchivo,'control');
 		$this->mensajeExito->setArchivoGenerado($nombreArchivo);
 		$this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
+    }
+
+    function ReporteConstanciaCartaSuperior(){
+
+        $this->objFunc=$this->create('MODCuentaDoc');
+        $this->res=$this->objFunc->ReporteConstanciaCartaSuperior($this->objParam);
+
+        //obtener titulo del reporte
+        $titulo = 'Correo';
+        //Genera el nombre del archivo (aleatorio + titulo)
+        $nombreArchivo=uniqid(md5(session_id()).$titulo);
+        $nombreArchivo.='.pdf';
+        $this->objParam->addParametro('orientacion','P');
+        $this->objParam->addParametro('nombre_archivo',$nombreArchivo);
+
+        $this->objReporteFormato=new RConstanciaCartaSuperior($this->objParam);
+        $this->objReporteFormato->setDatos($this->res->datos);
+        $this->objReporteFormato->generarReporte();
+        $this->objReporteFormato->output($this->objReporteFormato->url_archivo,'F');
+        $this->mensajeExito=new Mensaje();
+        $this->mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+            'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+        $this->mensajeExito->setArchivoGenerado($nombreArchivo);
+        $this->mensajeExito->imprimirRespuesta($this->mensajeExito->generarJson());
+//var_dump($this->res);
     }
 
 }
