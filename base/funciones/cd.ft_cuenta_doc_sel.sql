@@ -863,6 +863,10 @@ BEGIN
  	#DESCRIPCION:	Cabecera de reporte de solicitud de fondos
  	#AUTOR:		admin
  	#FECHA:		05-05-2016 16:41:21
+  #modificacion fecha por Observaciones de auditoria
+  se procedio el cambio para reportes solicitud memorandums y rendiciones
+  #los cambios se ejecutaron en coordinacion con grover velasquez y breydi velasquez
+  en fecha 14/07/2020
 	***********************************/
 
 	elsif(p_transaccion='CD_REPCDOC_SEL')then
@@ -894,7 +898,8 @@ BEGIN
                               cdoc.id_cuenta_doc_fk,
                               cdoc.nro_tramite,
                               lower(cdoc.motivo)::varchar as motivo,
-                              case when tcd.codigo in (''SOLFONAVA'',''SOLFONCHAR'') then lb.fecha else cdoc.fecha end as fecha,
+                              cdoc.fecha as fecha_solicitud,
+                              case when tcd.codigo in (''SOLFONAVA'',''SOLFONCHAR'',''SOLCAJCAN'', ''SOLFONROTA'') then lb.fecha else cdoc.fecha end as fecha_memorandum,
                               cdoc.id_moneda,
                               cdoc.estado,
                               cdoc.estado_reg,
