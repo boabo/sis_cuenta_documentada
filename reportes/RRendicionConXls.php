@@ -170,7 +170,7 @@ class RRendicionConXls
 		/////////////////////***********************************Detalle***********************************************
 		foreach($datos as $value) {
 
-			$newDate = date("d/m/Y", strtotime( $value['fecha_solicitud']));
+			$newDate = date("d/m/Y", strtotime( $value['fecha']));
 
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0,$fila,$value['codigo_categoria']);
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1,$fila,$value['codigo_cc']);
@@ -229,7 +229,7 @@ class RRendicionConXls
 		$total = 0;
 		foreach($this->datos_depositos  as $value) {
 
-			$newDate = date("d/m/Y", strtotime( $value['fecha_solicitud']));
+			$newDate = date("d/m/Y", strtotime( $value['fecha']));
 
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0,$fila,$value['codigo_partida']);
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1,$fila,$value['nombre_finalidad']);
@@ -270,7 +270,7 @@ class RRendicionConXls
 		$total = 0;
 		foreach($this->datos_consolidado  as $value) {
 
-			$newDate = date("d/m/Y", strtotime( $value['fecha_solicitud']));
+			$newDate = date("d/m/Y", strtotime( $value['fecha']));
 
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0,$fila,$value['codigo_categoria']);
 			$this->docexcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1,$fila,$value['partida']);
