@@ -1258,10 +1258,10 @@ BEGIN
 
 		begin
 		           v_consulta:='select
-                                      MAX(ala.descripcion)::varchar as mensaje_correo,
-                                      MAX(ala.fecha_reg)::timestamp,
-                                      MAX(array_to_string(pcorreo.correos, '',''))::varchar as correos,
-                                      MAX(ala.titulo_correo)::varchar
+                                      (ala.descripcion)::varchar as mensaje_correo,
+                                      (ala.fecha_reg)::timestamp,
+                                      (ala.correos)::varchar as correos,
+                                      (ala.titulo_correo)::varchar
 
                                 from  cd.tcuenta_doc cdoc
                                 left join segu.tusuario usu1 on usu1.id_usuario = cdoc.id_usuario_reg
@@ -1269,7 +1269,9 @@ BEGIN
                                 inner join param.talarma ala on ala.id_proceso_wf = cdoc.id_proceso_wf
                                 inner join wf.tplantilla_correo pcorreo on pcorreo.id_plantilla_correo = ala.id_plantilla_correo
 
-                                where cdoc.id_proceso_wf = '||v_parametros.id_proceso_wf;
+                                where cdoc.id_proceso_wf = '||v_parametros.id_proceso_wf||'
+                                order by ala.id_alarma DESC
+                                limit 1';
 			--Devuelve la respuesta
 
             raise notice 'consulta %',v_consulta;
