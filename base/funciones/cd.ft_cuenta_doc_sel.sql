@@ -865,7 +865,7 @@ BEGIN
  	#FECHA:		05-05-2016 16:41:21
   #modificacion fecha por Observaciones de auditoria
   se procedio el cambio para reportes solicitud memorandums y rendiciones
-  #los cambios se ejecutaron en coordinacion con grover velasquez y breydi velasquez
+  #los cambios se ejecutaron en coordinacion con grover velasquez y breydi vasquez
   en fecha 14/07/2020
 	***********************************/
 
@@ -875,6 +875,9 @@ BEGIN
 
            --recupera el gerente financiero ...
           v_gaf = orga.f_obtener_gerente_x_codigo_uo('gerente_financiero', now()::Date);
+          if (v_gaf[1] is null) then
+              raise exception 'El Gerente Administrativo Financiero no esta activo';
+          end if;
         --incremento breydi vasquez (04/11/2019) cambio memorandum de fondo en avance tipo pdf
 		  v_filtro = ' ';
 		 if pxp.f_existe_parametro(p_tabla, 'action')then
