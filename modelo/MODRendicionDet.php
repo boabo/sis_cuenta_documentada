@@ -217,6 +217,9 @@ class MODRendicionDet extends MODbase{
 			$this->setParametro('importe_anticipo','importe_anticipo','numeric');
 			$this->setParametro('importe_retgar','importe_retgar','numeric');
 			$this->setParametro('importe_neto','importe_neto','numeric');
+
+            $this->setParametro('id_proveedor', 'id_proveedor', 'integer');
+
 			$this->setParametro('id_auxiliar','id_auxiliar','integer');
 
 			$this->setParametro('fecha_vencimiento','fecha_vencimiento','date');
