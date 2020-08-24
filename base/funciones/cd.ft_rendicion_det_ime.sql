@@ -548,10 +548,14 @@ BEGIN
       		from param.tplantilla
       		where id_plantilla = v_registros.id_plantilla;
 
+
+            /* comentado el if por breydi vasquez 21/07/2002
+            * descripcion: para quitar la relacion de un factura a un comprobante no debe revisarse el periodo de compra y venta
+            */
             -- valida que period de libro de compras y ventas este abierto
-            IF v_tipo_informe = 'lcv' THEN
-	            v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
-    		END IF;
+        --     IF v_tipo_informe = 'lcv' THEN
+	      --       v_tmp_resp = conta.f_revisa_periodo_compra_venta(p_id_usuario, v_registros.id_depto_conta, v_rec.po_id_periodo);
+    		-- END IF;
 
             select rdd.id_doc_compra_venta
             into v_id_doc_compra_venta
