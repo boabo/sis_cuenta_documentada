@@ -573,7 +573,9 @@ BEGIN
 
 			--elimina relacion con la factura
             update conta.tdoc_compra_venta
-            set    nro_tramite = NULL
+            set    nro_tramite = NULL,
+                   id_origen = NULL,
+                   tabla_origen = NULL
             where  id_doc_compra_venta = v_id_doc_compra_venta;
 
             --Definicion de la respuesta
