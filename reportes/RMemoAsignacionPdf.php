@@ -49,12 +49,19 @@ class RMemoAsignacionPdf extends  ReportePDF {
         $importe_literal = $dataSource[0]['importe_literal'];
         $importe = number_format($dataSource[0]['importe'], 2, ',', '.');
         $aprobador = $dataSource[0]['aprobador'];
+				$fecha_sol = $this->datos_detalle[0]['fecha_solicitud'];
         $QR = $this->codigoQr($aprobador, $dataSource[0]['cargo_aprobador'], $nro_tramite);
         if($dataSource[0]['genero_solicitante'] == 'F'){
             $genero = 'Señora ';
             $desig='designada ';
         }
 
+				if( $fecha_sol < '2020-10-01') {
+						$resolucion = 'N° 20/2015';
+				}else {
+						$resolucion = 'N° 017/2020 de fecha 1 de Octubre de 2020';
+				}
+// var_dump($fecha_sol, $resolucion);exit;
 	    include(dirname(__FILE__).'/../reportes/tpl/bodyAsig.php');
         $content = ob_get_clean();
 
