@@ -189,7 +189,7 @@ header("content-type: text/javascript; charset=UTF-8");
             if(data && data.estado != 'finalziado' && data.sw_solicitud  == 'si'){
                 var selection, sw = true;
                 do{
-                    var selection = window.prompt("Introuzca los dias de ampliación -15 y 15", 5);
+                    var selection = window.prompt("Introuzca los dias de ampliación 1 y 15", 5);
                     var sw = selection?isNaN(selection):false;
 
                     console.log('......',selection, sw  , parseInt(selection, 10) > 15 , parseInt(selection, 10) < -15)

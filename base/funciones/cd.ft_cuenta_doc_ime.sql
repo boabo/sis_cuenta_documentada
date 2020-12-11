@@ -88,6 +88,7 @@ DECLARE
     v_periodo						integer;
     v_anho							integer;
 	v_fecha_aux						integer;
+      v_new_date						date;
 BEGIN
 
     v_nombre_funcion = 'cd.ft_cuenta_doc_ime';
@@ -1310,11 +1311,13 @@ BEGIN
 		begin
 
              --raise exception '%',v_parametros.dias_ampliado::varchar;
-			v_temp = v_parametros.dias_ampliado::varchar||' days';
+			-- v_temp = v_parametros.dias_ampliado::varchar||' days';
+      -- modificado breydi vasquez 11/12/2020 correcion  dias rendicion
+      v_new_date = cd.f_same_date_cd(now()::date, v_parametros.dias_ampliado);
 
 			--Sentencia de la modificacion
 			update cd.tcuenta_doc set
-                fecha_entrega = (fecha_entrega::Date +  v_temp)::date,
+                fecha_entrega = v_new_date::date,
                 id_usuario_mod = p_id_usuario,
                 fecha_mod = now()
             where id_cuenta_doc = v_parametros.id_cuenta_doc;
