@@ -283,7 +283,8 @@ BEGIN
                             cdoc.sw_max_doc_rend,
                             COALESCE(cdoc.num_rendicion,'''') as num_rendicion,
                             importe_total_rendido,
-                            cdoc.id_gestion
+                            cdoc.id_gestion,
+                            cdoc.tipo_rendicion
 						from cd.tcuenta_doc cdoc
                         inner join cd.ttipo_cuenta_doc tcd on tcd.id_tipo_cuenta_doc = cdoc.id_tipo_cuenta_doc
                         inner join param.tmoneda mon on mon.id_moneda = cdoc.id_moneda

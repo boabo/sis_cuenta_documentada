@@ -104,7 +104,7 @@ BEGIN
                 from  cd.tcuenta_doc pc
 
                 inner join cd.ttipo_cuenta_doc tpc on tpc.id_tipo_cuenta_doc = pc.id_tipo_cuenta_doc and tpc.estado_reg = 'activo'
-                inner join conta.tint_comprobante  c on c.id_int_comprobante = pc.id_int_comprobante
+                inner join conta.tint_comprobante  c on c.id_int_comprobante = pc.id_int_comprobante_reposicion
                 inner join wf.testado_wf ew on ew.id_estado_wf = pc.id_estado_wf
                 left join param.tdepto dpc on dpc.id_depto = pc.id_depto_conta
                 left join param.tdepto dpl on dpl.id_depto = pc.id_depto_lb

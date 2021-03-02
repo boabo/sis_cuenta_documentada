@@ -141,16 +141,31 @@ header("content-type: text/javascript; charset=UTF-8");
             },
             /*Comentando para ir agregando rendiciones ISMAEL VALDIVIA (16/01/2020)*/
             {
+                config: {
+                    name: 'tipo_rendicion',
+                    fieldLabel: 'Tipo de Rendición',
+                    allowBlank: false,
+                    anchor: '80%',
+                    gwidth: 200,
+                    maxLength: 500
+                },
+                type: 'TextArea',
+                filters: {pfiltro: 'cdoc.tipo_rendicion', type: 'string'},
+                id_grupo: 1,
+                grid: true,
+                form: false
+            },
+            {
                 config:{
                     name:'tipo_rendicion',
                     fieldLabel:'Tipo de Rendición',
                     allowBlank:false,
                     emptyText:'Tipo...',
-                    typeAhead: true,
+                    /*typeAhead: true,
                     triggerAction: 'all',
                     lazyRender:true,
                     mode: 'local',
-                    valueField: 'estilo',
+                    valueField: 'estilo',*/
                     gwidth: 120,
 
                     store: new Ext.data.JsonStore({
@@ -186,7 +201,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 },
                 type:'ComboBox',
                 id_grupo:1,
-                //filters:{pfiltro:'ren.tipo',type:'string'},
+                filters:{pfiltro:'cdoc.tipo_rendicion',type:'string'},
                 grid:false,
                 form:true
             },
@@ -807,7 +822,7 @@ header("content-type: text/javascript; charset=UTF-8");
             )
         }),
 
-        arrayDefaultColumHidden: ['usr_reg', 'usr_mod', 'estado_reg', 'fecha_reg'],
+        arrayDefaultColumHidden: ['usr_reg', 'usr_mod', 'estado_reg', 'fecha_reg', 'tipo_rendicion'],
 
         tam_pag: 50,
         title: 'Cuenta Documentada',
@@ -846,7 +861,8 @@ header("content-type: text/javascript; charset=UTF-8");
             'id_funcionario_cuenta_bancaria', 'sw_solicitud', 'importe_depositos', 'id_periodo', 'periodo',
             'desc_funcionario_cuenta_bancaria', 'tipo_cuenta_doc', 'importe_retenciones','importe_reposiciones',
             'desc_funcionario', 'desc_moneda', 'desc_depto', 'id_depto_conta', 'id_depto_lb', 'importe_documentos',
-            'dias_para_rendir','tipo_rendicion'
+            'dias_para_rendir',
+            {name: 'tipo_rendicion', type: 'string'}
 
         ],
         sortInfo: {

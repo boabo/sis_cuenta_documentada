@@ -71,7 +71,9 @@ BEGIN
         c.id_estado_wf,
         c.id_funcionario,
         c.id_tipo_cuenta_doc,
-        c.id_cuenta_doc_fk
+        c.id_cuenta_doc_fk,
+
+        tcd.codigo
 
       into
          v_reg_cuenta_doc
@@ -224,7 +226,9 @@ BEGIN
                 (may) PARA COMPROBANTES FONDO EN AVANCE DE TIPO RENDIR Y RENDIR/REPONER
                 -------------------------------------------------------------------------*/
 
-                IF (v_reg_cuenta_doc.codigo_plantilla_cbte != 'RENDICIONFONDO') THEN
+                -- (may) 01-03-2021 modificacion porque modificaron el codigo_plantilla_cbte y solo se tomara en cuenta el campo de codigo
+                --IF (v_reg_cuenta_doc.codigo_plantilla_cbte != 'RENDICIONFONDO') THEN
+                IF (v_reg_cuenta_doc.codigo != 'RFA') THEN
 
                 --(may) SI EL COMPROBANTE ES PARA LA SOLICITUD
 
@@ -286,7 +290,7 @@ BEGIN
 
                               v_id_int_comprobante_rep =   conta.f_gen_comprobante (
                                                                v_reg_cuenta_doc.id_cuenta_doc,
-                                                               'RENDICIONREPOSICION' ,
+                                                               'RENDICIONREPOSICION',
                                                                p_id_estado_wf,
                                                                p_id_usuario,
                                                                p_id_usuario_ai,

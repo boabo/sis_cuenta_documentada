@@ -72,6 +72,8 @@ class MODCuentaDoc extends MODbase{
 		$this->captura('importe_total_rendido','numeric');
 		$this->captura('id_gestion','INTEGER');
 
+		$this->captura('tipo_rendicion','VARCHAR');
+
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
