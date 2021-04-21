@@ -379,7 +379,9 @@ header("content-type: text/javascript; charset=UTF-8");
 			if (this.Cmp.tipo_pago.getValue() == 'transferencia') {
 					this.ocultarComponente(this.Cmp.nombre_cheque);
 					this.mostrarComponente(this.Cmp.id_funcionario_cuenta_bancaria);
-            }			
+            }
+
+            this.ocultarComponente(this.Cmp.tipo_rendicion);
 		},
 
 		onBtnRendicion : function() {
